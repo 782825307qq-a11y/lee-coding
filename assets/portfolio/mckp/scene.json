@@ -1,0 +1,198 @@
+{
+  "id": 4517,
+  "UUID": "05038403-8865-410d-9a98-b38ae5f68016",
+  "status": "draft",
+  "sort": null,
+  "date_created": "2026-08-17T10:39:35.55653Z",
+  "date_updated": "2026-08-17T10:39:35.55653Z",
+  "name": "MacBook",
+  "client_id": "f49fae5c-44b7-4dc7-b303-045e4027ac14",
+  "initial_mockup": 567,
+  "embedded": null,
+  "glb_file": "scene",
+  "scene_settings": {
+    "antiAliasing": true,
+    "backgroundLayers": [
+      {
+        "color": "#000000",
+        "color_control": null,
+        "id": "bg-dyqqgupa",
+        "image_data": null,
+        "image_fit_mode": null,
+        "opacity": 0,
+        "original_image_data": null,
+        "position_control_end_x": null,
+        "position_control_end_y": null,
+        "position_control_start_x": null,
+        "position_control_start_y": null,
+        "tile_offset": null,
+        "tile_scale": null,
+        "type": "solid",
+        "viewport_height": 931,
+        "viewport_width": 1728
+      }
+    ],
+    "changeThisDimensions": {
+      "mockup-0": {
+        "height": 1964,
+        "name": "mockup-0",
+        "offsetX": 0,
+        "offsetY": 0.023,
+        "repeatX": 1,
+        "repeatY": 0.866,
+        "videoLoop": true,
+        "videoMuted": true,
+        "width": 3024,
+        "x": 0,
+        "y": 40.25,
+        "zoom": 100
+      }
+    },
+    "cropAspectRatio": "4:3",
+    "fov": 10,
+    "glbOptimized": true,
+    "hdrDisabled": true,
+    "hdrIntensity": 100,
+    "hdrRotation": 360,
+    "initialMockupUid": "03513c5d-ebcd-416b-8aa5-072ac5ef8290",
+    "isBackgroundTransparent": true,
+    "lights": [
+      {
+        "color": 7628794,
+        "intensity": 10,
+        "name": "Spot",
+        "position": [
+          1.3201720714569092,
+          -0.3883374035358429,
+          1.9201724529266357
+        ],
+        "type": "spot"
+      },
+      {
+        "color": 16777215,
+        "intensity": 0.55,
+        "name": "Spot001",
+        "position": [
+          -1.1895933151245117,
+          0.9246843457221985,
+          -0.43939846754074097
+        ],
+        "type": "spot"
+      },
+      {
+        "color": 16580603,
+        "intensity": 9.7,
+        "name": "Spot002",
+        "position": [
+          2.3989219665527344,
+          0.3699307441711426,
+          0.6339207887649536
+        ],
+        "type": "spot"
+      }
+    ],
+    "materialVariants": [],
+    "nodeTransforms": {},
+    "orbitConfig": {
+      "click": {
+        "bottom": 12,
+        "disableOnPlay": false,
+        "enabled": true,
+        "left": 55,
+        "return": {
+          "delay": 0,
+          "enabled": false,
+          "speed": 1
+        },
+        "right": 57,
+        "top": 9
+      },
+      "move": {
+        "affectWholePage": true,
+        "bottom": 10,
+        "disableOnPlay": false,
+        "enabled": true,
+        "left": 60,
+        "right": 66,
+        "top": 11
+      },
+      "shake": {
+        "affectWholePage": false,
+        "angle": 0,
+        "disableOnPlay": false,
+        "duration": 800,
+        "enabled": false,
+        "intensity": 1,
+        "intensityZ": 7
+      },
+      "zoom": {
+        "affectWholePage": false,
+        "amountDolly": 100,
+        "amountFov": 28,
+        "disableOnPlay": false,
+        "duration": 800,
+        "enabled": false,
+        "mode": "fov",
+        "return": {
+          "enabled": false,
+          "speed": 1
+        }
+      }
+    },
+    "originalLightsFromModel": [],
+    "passesConfig": {
+      "postprocessing": {
+        "blacks": 0,
+        "brightness": 0,
+        "clarity": 0,
+        "dehaze": 0,
+        "fade": 0,
+        "fadeColor": 1,
+        "gamma": 1,
+        "highlights": 0,
+        "midtones": 0,
+        "saturation": 0,
+        "shadows": 0,
+        "sharpness": 0,
+        "temperature": 0,
+        "tint": 0,
+        "vibrance": 0,
+        "whites": 0
+      },
+      "render": {
+        "antialiasing": false
+      }
+    },
+    "playbackSpeed": 1.35,
+    "previewMockupCard": "c31ec09c-aa1e-47d8-85f2-933ca613e50a.webp",
+    "sceneAssets": {
+      "mockup-0": "cover-20260903-v2.mp4",
+      "optimized_Object124_Corona_Beauty.webp": "d5410248-a451-4fd1-a46b-a657de74124e.webp",
+      "optimized_Object126_Corona_Beauty.webp": "a52fe6bc-10af-4d46-a213-b39414bfb045.webp",
+      "optimized_bottom.001_Corona_Beauty.webp": "0dc3b3ac-c763-4a45-8806-8f4006230cc2.webp",
+      "optimized_bottom.002_Corona_Beauty.webp": "1de1ecbb-3357-4ef9-96de-130a236831e1.webp",
+      "optimized_bottom.003_Corona_Beauty.webp": "31d691ce-8861-4f8b-a9e8-e215e46b906f.webp",
+      "optimized_center_stage_camera__byeelel4avma_large.webp": "01a1a2a0-bf64-476e-bfff-3e30b44da444.webp",
+      "optimized_scene.low.glb": "93619a13-d57d-404e-94fc-56fd1946a959.glb",
+      "optimized_shadowWWW.webp": "539d628a-bd2e-459d-9b0b-ca7ac269d3c9.webp",
+      "optimized_textures.json": "12f37014-15df-4de3-bbc6-dd45d9af4289.json",
+      "optimized_top.webp": "76e5b152-9f13-41aa-a25f-c74de63e4c87.webp",
+      "optimized_wJoVoVIYINXldBc.webp": "16232b80-f095-4fd5-a2c3-5d4b36b41042.webp"
+    },
+    "sceneLabel": "MacBook",
+    "screenCrt": 0,
+    "screenReflection": 0,
+    "screenReflectionScale": 100,
+    "selectedVariant": "",
+    "toneMapping": "ACESFilmicToneMapping",
+    "trigger": {
+      "delay": 0,
+      "loop": false,
+      "type": "manual"
+    },
+    "zoom": 26
+  },
+  "hdr": null,
+  "initial_mockup_uuid": "03513c5d-ebcd-416b-8aa5-072ac5ef8290",
+  "owner_is_pro": false
+}

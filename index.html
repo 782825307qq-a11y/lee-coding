@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="李昊宇，UI、AI 与视觉设计师个人作品集。" />
+    <title>李昊宇｜UI · AI · Visual Designer</title>
+    <link rel="icon" href="./assets/portfolio/navigation/project.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./portfolio.css?v=20260907-6" />
+    <link rel="stylesheet" href="./assets/portfolio/vendor/lenis.css?v=1.3.26" />
+    <link rel="preload" href="./assets/portfolio/mckp/scene.glb" as="fetch" crossorigin="anonymous" />
+    <link rel="preload" href="./assets/portfolio/mckp/cover-20260903-v2.mp4" as="video" type="video/mp4" />
+    <link rel="stylesheet" href="./pixel-swap-transition.css?v=20260820-1" />
+    <link rel="stylesheet" href="./assets/portfolio/lanyard-island/lanyard.css?v=20260901-12" />
+    <link rel="stylesheet" href="./nav-overrides.css?v=20260906-5" />
+  </head>
+  <body>
+    <a class="skip-link" href="#profile">跳至主要内容</a>
+
+    <nav class="site-nav" aria-label="主导航">
+      <div class="nav-links" data-active-section="none">
+        <span class="fluid-glass-nav" id="fluidGlassNav" aria-hidden="true"></span>
+        <a class="nav-link" href="#profile" data-nav-index="0">
+          <span class="nav-icon"><img src="./assets/portfolio/navigation/resume.svg" alt="" aria-hidden="true" /></span>
+          <span>简历</span>
+        </a>
+        <a class="nav-link" href="#work" data-nav-index="1">
+          <span class="nav-icon"><img src="./assets/portfolio/navigation/project.svg" alt="" aria-hidden="true" /></span>
+          <span>项目</span>
+        </a>
+        <a class="nav-link" href="#contact" data-nav-index="2">
+          <span class="nav-icon nav-icon-contact" aria-hidden="true">
+            <img src="./assets/portfolio/navigation/contact.svg" alt="" />
+          </span>
+          <span>联系</span>
+        </a>
+      </div>
+      <button class="nav-fluid-button" type="button" aria-label="Lee.Coding，Logic meets aesthetics">
+        <span class="nav-fluid-avatar" aria-hidden="true">
+          <img src="./assets/portfolio/navigation/lee-coding-avatar.png" alt="" />
+        </span>
+        <span class="nav-fluid-copy">
+          <strong>Lee.Coding<span aria-hidden="true">*</span></strong>
+          <small>Logic meets aesthetics</small>
+        </span>
+      </button>
+    </nav>
+
+    <main>
+      <section class="hero" id="top" aria-label="作品集封面">
+        <div class="hero-sticky">
+          <div class="mockup-shell is-loading" id="mockupShell">
+            <div class="mockup-skeleton" aria-hidden="true">
+              <span class="skeleton-screen"></span>
+              <span class="skeleton-base"></span>
+              <span class="skeleton-hinge"></span>
+            </div>
+            <mockup-player
+              id="heroMockup"
+              mockup-id="05038403-8865-410d-9a98-b38ae5f68016"
+              width="100%"
+              aspect-ratio="4 / 3"
+              progressive="false"
+              texture-upgrade="false"
+              watermark="false"
+              cursor-enabled="false"
+              click-enabled="true"
+              cursor-range="11-66-10-60"
+              click-range="9-57-12-55"
+              background-transparent="true"
+              background-color="#000000"
+              aria-label="MacBook Pro 与 iPhone 作品集交互展示"
+            ></mockup-player>
+            <div class="mockup-fallback" id="mockupFallback" hidden>
+              <div>
+                <p>交互模型暂时无法载入</p>
+                <button type="button" id="retryMockup">重新加载</button>
+              </div>
+            </div>
+
+          </div>
+
+          <section class="cover-home" id="coverHome" aria-label="作品集封面首页">
+            <video class="cover-background-video" muted loop playsinline preload="auto" aria-hidden="true">
+              <source src="./assets/portfolio/cover-background-20260903.mp4" type="video/mp4" />
+            </video>
+            <header class="cover-home-meta">
+              <span>LI HAOYU</span>
+              <span>UI / AI / VISUAL DESIGN</span>
+            </header>
+            <div class="cover-window" id="coverWindow">
+              <div class="cover-art" id="coverArt">
+                <img class="cover-title-image" src="./assets/portfolio/cover-title-20260903.png" alt="UI 与 AI 设计进化录" />
+                <span class="cover-sheen" aria-hidden="true"></span>
+              </div>
+              <img class="cover-ring cover-ring--top" src="./assets/portfolio/cover-ring-20260903.png" alt="" aria-hidden="true" />
+              <img class="cover-ring cover-ring--bottom" src="./assets/portfolio/cover-ring-20260903.png" alt="" aria-hidden="true" />
+            </div>
+            <footer class="cover-home-footer">
+              <span>PORTFOLIO / 2023—2026</span>
+              <a href="#profile">PROFILE <i aria-hidden="true">↓</i></a>
+            </footer>
+          </section>
+
+          <a class="scroll-cue" href="#cover"><span>SCROLL TO ENTER</span><i aria-hidden="true"></i></a>
+        </div>
+        <span class="cover-anchor" id="cover" aria-hidden="true"></span>
+      </section>
+
+      <section class="resume-section" id="profile" aria-labelledby="profileTitle">
+        <div class="resume-sticky">
+          <div class="resume-glow" aria-hidden="true"></div>
+          <p class="section-index">01 / PROFILE</p>
+          <div class="resume-layout">
+            <figure class="resume-portrait reveal-item">
+              <div class="resume-lanyard" id="resumeLanyard" aria-label="可拖拽的李昊宇设计师证件"></div>
+              <figcaption><span>BASED IN BEIJING</span><span>3+ YEARS EXPERIENCE</span></figcaption>
+            </figure>
+
+            <article class="resume-content">
+              <header class="resume-heading reveal-item">
+                <p>李昊宇 / LI HAOYU</p>
+                <h2 id="profileTitle">让视觉、产品与 AI<br />形成同一套体验。</h2>
+                <p class="resume-lede">UI / AI / 体验设计师。擅长成熟产品迭代、0-1 视觉探索、运营视觉与 AI 工作流落地，让概念从画面进入真实使用场景。</p>
+              </header>
+
+              <div class="resume-timeline">
+                <section class="timeline-row reveal-item">
+                  <div class="timeline-key"><span>2023.09 - NOW</span><i></i></div>
+                  <div class="timeline-copy">
+                    <h3>粉笔蓝天</h3>
+                    <p class="timeline-role">UI / AI / 体验设计师</p>
+                    <p>负责公考业务功能迭代、多端适配与视觉一致性；独立推进悟牛 K12 项目视觉探索与规范落地，并完成海豹上岸游记的角色、场景及动态资产体系。</p>
+                  </div>
+                </section>
+                <section class="timeline-row reveal-item">
+                  <div class="timeline-key"><span>FOCUS</span><i></i></div>
+                  <div class="timeline-copy">
+                    <h3>设计能力</h3>
+                    <ul class="focus-list" aria-label="设计能力标签">
+                      <li>产品与体验设计</li><li>视觉与品牌系统</li><li>AI 图像与动态内容</li><li>原型与前端表达</li>
+                    </ul>
+                  </div>
+                </section>
+                <section class="timeline-row reveal-item">
+                  <div class="timeline-key"><span>2019.09 - 2023.07</span><i></i></div>
+                  <div class="timeline-copy">
+                    <h3>山西大学</h3>
+                    <p class="timeline-role">数字媒体艺术 · 本科</p>
+                    <p>大广赛交互赛道省一等奖、AIGC 品牌数藏共创大赛数藏人气奖、大广赛视频赛道省三等奖。</p>
+                  </div>
+                </section>
+              </div>
+
+              <div class="resume-contact reveal-item" aria-label="联系信息">
+                <a href="mailto:782825307@qq.com"><span>EMAIL</span>782825307@qq.com</a>
+                <button type="button" class="copy-wechat" data-copy="B_Leeve"><span>WECHAT</span>B_Leeve</button>
+              </div>
+            </article>
+          </div>
+          <span class="chapter-wipe" data-next-section="#work" aria-hidden="true"></span>
+        </div>
+      </section>
+
+      <span class="chapter-seam" aria-hidden="true"></span>
+      <section class="projects-section" id="work" aria-labelledby="workTitle">
+        <div class="projects-canvas">
+          <header class="projects-heading">
+            <h2 id="workTitle">UI × AI × Visual&nbsp; Design</h2>
+          </header>
+
+          <div class="project-explorer" aria-label="项目目录">
+            <div class="project-stage" id="projectStage" aria-label="单击卡片进入项目">
+              <div class="project-fan" id="projectFan" role="list" aria-live="off"></div>
+            </div>
+          </div>
+
+          <p class="projects-tagline">Notable Projects &amp; Achievements</p>
+          <button class="project-cta" id="projectCta" type="button">
+            <span>Learn More</span>
+            <img src="./assets/portfolio/figma-directory/learn-more-arrow.svg" alt="" aria-hidden="true" />
+          </button>
+        </div>
+        <span class="chapter-wipe" data-next-section="#contact" aria-hidden="true"></span>
+      </section>
+
+      <dialog class="about-viewer" id="aboutViewer" aria-label="关于个人项目长图">
+        <div class="about-viewer-frame">
+          <button class="about-viewer-close" id="aboutViewerClose" type="button" aria-label="关闭查看窗口">×</button>
+          <div class="about-viewer-scroll" id="aboutViewerScroll">
+            <img src="./assets/portfolio/about-work-20260903.jpg" alt="关于个人项目、成长与 AI 探索经历" />
+          </div>
+        </div>
+      </dialog>
+
+      <span class="chapter-seam" aria-hidden="true"></span>
+      <section class="contact-section" id="contact" aria-labelledby="contactTitle">
+        <div class="contact-layout">
+          <div class="contact-content">
+            <h2 id="contactTitle">Get in<br />touch.</h2>
+            <div class="contact-directory" aria-label="联系信息">
+              <div class="contact-item">
+                <span class="contact-icon"><img src="./assets/portfolio/contact-figma/map-pin.svg?v=20260901-3" alt="" /></span>
+                <div class="contact-item-copy"><strong>Beijing</strong><small>Building 103, Jia 10 Jiuxianqiao North Road, Chaoyang</small></div>
+              </div>
+              <a class="contact-item" href="tel:+8617635429135">
+                <span class="contact-icon"><img src="./assets/portfolio/contact-figma/phone.svg?v=20260901-2" alt="" /></span>
+                <span class="contact-item-copy"><strong>+86 176 3542 9135</strong><small>Phone</small></span>
+              </a>
+              <button class="contact-item copy-email" id="copyEmail" type="button" data-copy="782825307@qq.com">
+                <span class="contact-icon"><img src="./assets/portfolio/contact-figma/mail.svg?v=20260901-2" alt="" /></span>
+                <span class="contact-item-copy"><strong>782825307@qq.com</strong><small>Mail</small></span>
+              </button>
+              <button class="contact-item contact-item-wechat copy-contact" type="button" data-copy="B_Leeve" aria-label="复制微信号 B_Leeve；悬浮显示微信二维码">
+                <span class="contact-icon">
+                  <span class="contact-wechat-glyph" aria-hidden="true">
+                    <img src="./assets/portfolio/contact-figma/wechat.svg?v=20260901-2" alt="" />
+                    <i></i>
+                  </span>
+                </span>
+                <span class="contact-item-copy"><strong>B_Leeve</strong><small>wechat</small></span>
+                <span class="contact-wechat-qr" aria-hidden="true">
+                  <img src="./assets/portfolio/contact-figma/wechat-qr.png" alt="" />
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="contact-media">
+            <video class="contact-video" id="contactVideo" muted loop playsinline preload="metadata">
+              <source src="./assets/motion/contact-expression.mov" />
+            </video>
+            <div class="contact-video-fade" aria-hidden="true"></div>
+            <div class="video-controls" aria-label="视频控制">
+              <button type="button" id="togglePlayback" aria-label="暂停视频"><span aria-hidden="true">Ⅱ</span></button>
+              <button type="button" id="toggleSound" aria-label="开启声音"><span aria-hidden="true">⌁</span></button>
+            </div>
+          </div>
+          <footer class="site-footer">
+            <div class="site-footer-note">
+              <span>感谢你观看我的个站&nbsp;&nbsp; See You～</span>
+              <span>设计是基于你认识世界的方式而产生的一种独有的语言</span>
+            </div>
+            <a class="contact-back-to-top" href="#top"><span>回到顶部</span><img src="./assets/portfolio/contact-figma/arrow-up.svg" alt="" /></a>
+            <span class="site-footer-discipline">PRODUCT DESIGN · AI EXPERIENCE · VISUAL SYSTEMS</span>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <div class="page-curtain" id="pageCurtain" aria-hidden="true"></div>
+    <div id="sideRaysRoot" aria-hidden="true"></div>
+    <p class="toast" id="toast" role="status" aria-live="polite"></p>
+    <script src="./assets/portfolio/vendor/lenis.min.js?v=1.3.26"></script>
+    <script src="./assets/portfolio/vendor/gsap.min.js?v=3.15.0"></script>
+    <script src="./portfolio.js?v=20260907-7"></script>
+    <script src="./pixel-swap-transition.js?v=20260820-1"></script>
+    <script type="module" src="./assets/portfolio/lanyard-island/lanyard.js?v=20260906-4"></script>
+  </body>
+</html>

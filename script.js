@@ -1,0 +1,373 @@
+const isGoogleChrome = (navigator.userAgentData?.brands?.some(({ brand }) => brand === "Google Chrome") ?? false)
+  && window.outerWidth - window.innerWidth < 100;
+document.documentElement.classList.toggle("is-google-chrome", isGoogleChrome);
+
+const scenes = [
+  { name: "南极冰块", src: "./assets/scenes/scene-01-ice.mp4" },
+  { name: "奇石木筏", src: "./assets/scenes/scene-02-raft.mp4" },
+  { name: "火山", src: "./assets/scenes/scene-06-volcano.mp4" },
+  { name: "樱花气垫", src: "./assets/scenes/scene-03-sakura.mp4" },
+  { name: "沙漠小船", src: "./assets/scenes/scene-05-desert-boat.mp4" },
+  { name: "沙滩木椅", src: "./assets/scenes/scene-04-beach-chair.mp4" },
+];
+
+const sealActions = [
+  { name: "看书", folder: "./assets/seal/read", frames: 161 },
+  { name: "熬夜", folder: "./assets/seal/actions/late-night", frames: 444 },
+  { name: "报告", folder: "./assets/seal/actions/report", frames: 384 },
+  { name: "爆炸", folder: "./assets/seal/actions/explosion", frames: 468 },
+  { name: "吉他", folder: "./assets/seal/actions/guitar", frames: 377 },
+  { name: "考神", folder: "./assets/seal/actions/exam", frames: 319 },
+  { name: "摸鱼", folder: "./assets/seal/actions/slacking", frames: 281 },
+  { name: "喷雾", folder: "./assets/seal/actions/spray", frames: 450 },
+  { name: "甩拂尘", folder: "./assets/seal/actions/whisk", frames: 321 },
+];
+
+const reactionActions = [
+  { name: "比心", folder: "./assets/seal/reactions/heart", frames: 41 },
+  { name: "嗨", folder: "./assets/seal/reactions/hi", frames: 85 },
+];
+
+const stage = document.querySelector(".scene-stage");
+const padVideo = document.querySelector("#padVideo");
+const phoneVideo = document.querySelector("#phoneVideo");
+const sealFrame = document.querySelector("#sealFrame");
+const sceneIndex = document.querySelector("#sceneIndex");
+const sceneTotal = document.querySelector("#sceneTotal");
+const sceneName = document.querySelector("#sceneName");
+const nextScene = document.querySelector("#nextScene");
+const teaseSeal = document.querySelector("#teaseSeal");
+const actionButtons = document.querySelector("#actionButtons");
+const loadingScreen = document.querySelector("#loadingScreen");
+const loadingProgress = document.querySelector("#loadingProgress");
+const loadingPercentage = document.querySelector("#loadingPercentage");
+const worldVideo = document.querySelector("#worldVideo");
+const previousWorldScene = document.querySelector("#previousWorldScene");
+const nextWorldScene = document.querySelector("#nextWorldScene");
+const ledeSealFrame = document.querySelector("#ledeSealFrame");
+const characterPortraitFrame = document.querySelector("#characterPortraitFrame");
+const motionPhone = document.querySelector("#motionPhone");
+const motionVideo = document.querySelector("#motionVideo");
+const actionRailFrames = Array.from(document.querySelectorAll(".action-rail img[data-action-folder]")).map((image) => ({
+  image,
+  folder: image.dataset.actionFolder,
+  frames: Number(image.dataset.actionFrames),
+}));
+const breathingFrames = 172;
+const breathingAssetVersion = "2";
+
+let activeScene = 0;
+let activeWorldScene = 4;
+let activeAction = 0;
+let activeSealFrame = 0;
+let isReacting = false;
+let touchStartY = 0;
+const preloadedActions = new Set();
+
+sceneTotal.textContent = String(scenes.length).padStart(2, "0");
+
+function getActionFrames(action) {
+  return Array.from({ length: action.frames }, (_, index) => {
+    const frame = String(index).padStart(3, "0");
+    return `${action.folder}/${frame}.png`;
+  });
+}
+
+function startActionRailLoops() {
+  if (!actionRailFrames.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  let tick = 0;
+  window.setInterval(() => {
+    actionRailFrames.forEach(({ image, folder, frames }, index) => {
+      const frame = (tick * 2 + Math.floor((frames / actionRailFrames.length) * index)) % frames;
+      image.src = `${folder}/${String(frame).padStart(3, "0")}.png`;
+    });
+    tick += 1;
+  }, 1000 / 12);
+}
+
+function startBreathingLoop(image) {
+  if (!image || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  let frame = 0;
+  window.setInterval(() => {
+    frame = (frame + 1) % breathingFrames;
+    image.src = `./assets/seal/breathing/${String(frame).padStart(3, "0")}.png?v=${breathingAssetVersion}`;
+  }, 1000 / 24);
+}
+
+let sealFrames = getActionFrames(sealActions[activeAction]);
+sealFrame.src = sealFrames[0];
+
+function playVideo(video) {
+  const playPromise = video.play();
+  if (playPromise) {
+    playPromise.catch(() => {});
+  }
+}
+
+function setWorldScene(nextIndex) {
+  if (!worldVideo) return;
+
+  activeWorldScene = (nextIndex + scenes.length) % scenes.length;
+  const source = worldVideo.querySelector("source");
+  source.src = scenes[activeWorldScene].src;
+  worldVideo.currentTime = 0;
+  worldVideo.load();
+  worldVideo.addEventListener("loadedmetadata", () => playVideo(worldVideo), { once: true });
+  playVideo(worldVideo);
+}
+
+function setLoadingProgress(value) {
+  const progress = Math.max(0, Math.min(100, Math.round(value)));
+  loadingProgress.style.width = `${progress}%`;
+  loadingPercentage.textContent = `${progress}%`;
+}
+
+function waitForVideoReady(video) {
+  if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    const finish = () => {
+      video.removeEventListener("loadeddata", finish);
+      video.removeEventListener("error", finish);
+      resolve();
+    };
+
+    video.addEventListener("loadeddata", finish, { once: true });
+    video.addEventListener("error", finish, { once: true });
+  });
+}
+
+function waitForSealReady() {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.addEventListener("load", resolve, { once: true });
+    image.addEventListener("error", resolve, { once: true });
+    image.src = sealFrames[0];
+  });
+}
+
+function startLoadingSequence() {
+  let progress = 0;
+  const progressTimer = window.setInterval(() => {
+    progress = Math.min(88, progress + Math.max(1, (88 - progress) * 0.16));
+    setLoadingProgress(progress);
+  }, 90);
+
+  Promise.all([waitForVideoReady(padVideo), waitForVideoReady(phoneVideo), waitForSealReady()]).then(() => {
+    window.clearInterval(progressTimer);
+    setLoadingProgress(100);
+    window.setTimeout(() => loadingScreen.classList.add("is-leaving"), 320);
+  });
+}
+
+function updatePhoneVideoAlignment() {
+  const padFrame = document.querySelector(".pad-frame");
+  const phoneScreen = document.querySelector(".phone-screen");
+  if (!padFrame || !phoneScreen) return;
+
+  const padRect = padFrame.getBoundingClientRect();
+  const phoneRect = phoneScreen.getBoundingClientRect();
+  const sceneRect = {
+    left: Math.min(padRect.left, phoneRect.left),
+    top: Math.min(padRect.top, phoneRect.top),
+    right: Math.max(padRect.right, phoneRect.right),
+    bottom: Math.max(padRect.bottom, phoneRect.bottom),
+  };
+  const sceneWidth = sceneRect.right - sceneRect.left;
+  const sceneHeight = sceneRect.bottom - sceneRect.top;
+  const sceneAspect = padRect.width / padRect.height;
+  const unionAspect = sceneWidth / sceneHeight;
+  const renderWidth = unionAspect > sceneAspect ? sceneWidth : sceneHeight * sceneAspect;
+  const renderHeight = unionAspect > sceneAspect ? sceneWidth / sceneAspect : sceneHeight;
+  const renderLeft = sceneRect.left + (sceneWidth - renderWidth) / 2;
+  const renderTop = sceneRect.top + (sceneHeight - renderHeight) / 2;
+
+  [
+    { element: padFrame, rect: padRect },
+    { element: phoneScreen, rect: phoneRect },
+  ].forEach(({ element, rect }) => {
+    element.style.setProperty("--scene-video-width", `${renderWidth}px`);
+    element.style.setProperty("--scene-video-height", `${renderHeight}px`);
+    element.style.setProperty("--scene-video-offset-x", `${rect.left - renderLeft}px`);
+    element.style.setProperty("--scene-video-offset-y", `${rect.top - renderTop}px`);
+  });
+}
+
+function queueVideoAlignmentUpdate() {
+  updatePhoneVideoAlignment();
+  window.requestAnimationFrame(updatePhoneVideoAlignment);
+}
+
+function setScene(index) {
+  activeScene = (index + scenes.length) % scenes.length;
+  const scene = scenes[activeScene];
+
+  stage.classList.add("is-switching");
+  const objectPositionY = activeScene === 2 ? "39%" : activeScene === 4 ? "48.9%" : activeScene === 5 ? "47.8%" : "50%";
+  stage.style.setProperty("--scene-video-object-position-y", objectPositionY);
+  sceneIndex.textContent = String(activeScene + 1).padStart(2, "0");
+  sceneName.textContent = scene.name;
+
+  [padVideo, phoneVideo].forEach((video) => {
+    video.pause();
+    const source = video.querySelector("source");
+    if (source) {
+      source.src = scene.src;
+    } else {
+      video.src = scene.src;
+    }
+    video.currentTime = 0;
+    video.load();
+    video.addEventListener("loadedmetadata", () => playVideo(video), { once: true });
+    playVideo(video);
+  });
+  queueVideoAlignmentUpdate();
+
+  document.querySelectorAll(".scene-dot").forEach((dot, dotIndex) => {
+    dot.classList.toggle("is-active", dotIndex === activeScene);
+    dot.setAttribute("aria-pressed", dotIndex === activeScene ? "true" : "false");
+  });
+
+  window.setTimeout(() => {
+    stage.classList.remove("is-switching");
+  }, 440);
+}
+
+function moveScene(direction) {
+  if (stage.dataset.sceneLocked === "true") return;
+  stage.dataset.sceneLocked = "true";
+  setScene(Number(sceneIndex.textContent) - 1 + direction);
+  window.setTimeout(() => {
+    delete stage.dataset.sceneLocked;
+  }, 1300);
+}
+
+function preloadAction(action) {
+  if (preloadedActions.has(action.folder)) return;
+  preloadedActions.add(action.folder);
+  const frames = getActionFrames(action);
+  let cursor = 0;
+
+  function preloadBatch() {
+    frames.slice(cursor, cursor + 18).forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+    cursor += 18;
+    if (cursor < frames.length) {
+      window.setTimeout(preloadBatch, 60);
+    }
+  }
+
+  preloadBatch();
+}
+
+function showSealAction(action) {
+  activeSealFrame = 0;
+  sealFrames = getActionFrames(action);
+  sealFrame.src = sealFrames[activeSealFrame];
+  sealFrame.alt = `${action.name}海豹动作`;
+  preloadAction(action);
+}
+
+function setAction(index) {
+  activeAction = index;
+  isReacting = false;
+  showSealAction(sealActions[activeAction]);
+
+  document.querySelectorAll(".action-button").forEach((button, buttonIndex) => {
+    button.classList.toggle("is-active", buttonIndex === activeAction);
+    button.setAttribute("aria-pressed", buttonIndex === activeAction ? "true" : "false");
+  });
+}
+
+sealActions.forEach((action, index) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "action-button";
+  button.textContent = action.name;
+  button.setAttribute("aria-label", `切换海豹动作：${action.name}`);
+  button.addEventListener("click", () => setAction(index));
+  button.addEventListener("mouseenter", () => preloadAction(action));
+  actionButtons.appendChild(button);
+});
+
+nextScene.onclick = () => moveScene(1);
+previousWorldScene?.addEventListener("click", () => setWorldScene(activeWorldScene - 1));
+nextWorldScene?.addEventListener("click", () => setWorldScene(activeWorldScene + 1));
+teaseSeal.addEventListener("click", () => {
+  const reaction = reactionActions[Math.floor(Math.random() * reactionActions.length)];
+  isReacting = true;
+  showSealAction(reaction);
+  teaseSeal.classList.remove("is-clicking");
+  void teaseSeal.offsetWidth;
+  teaseSeal.classList.add("is-clicking");
+  window.setTimeout(() => teaseSeal.classList.remove("is-clicking"), 300);
+});
+motionPhone?.addEventListener("click", () => {
+  if (!motionVideo) return;
+
+  if (motionVideo.paused || motionVideo.ended) {
+    playVideo(motionVideo);
+  } else {
+    motionVideo.pause();
+  }
+});
+motionVideo?.addEventListener("play", () => motionPhone?.classList.add("is-playing"));
+motionVideo?.addEventListener("pause", () => motionPhone?.classList.remove("is-playing"));
+motionVideo?.addEventListener("ended", () => motionPhone?.classList.remove("is-playing"));
+window.addEventListener("resize", queueVideoAlignmentUpdate);
+window.addEventListener("load", queueVideoAlignmentUpdate);
+
+window.addEventListener(
+  "wheel",
+  (event) => {
+    if (Math.abs(event.deltaY) < 26) return;
+    event.preventDefault();
+    moveScene(event.deltaY > 0 ? 1 : -1);
+  },
+  { passive: false }
+);
+
+window.addEventListener(
+  "touchstart",
+  (event) => {
+    touchStartY = event.touches[0].clientY;
+  },
+  { passive: true }
+);
+
+window.addEventListener(
+  "touchend",
+  (event) => {
+    const touchEndY = event.changedTouches[0].clientY;
+    const delta = touchStartY - touchEndY;
+    if (Math.abs(delta) > 42) {
+      moveScene(delta > 0 ? 1 : -1);
+    }
+  },
+  { passive: true }
+);
+
+window.setInterval(() => {
+  if (isReacting && activeSealFrame >= sealFrames.length - 1) {
+    isReacting = false;
+    showSealAction(sealActions[activeAction]);
+    return;
+  }
+
+  activeSealFrame = (activeSealFrame + 1) % sealFrames.length;
+  sealFrame.src = sealFrames[activeSealFrame];
+}, 1000 / 24);
+
+setScene(0);
+setAction(0);
+reactionActions.forEach(preloadAction);
+startActionRailLoops();
+startBreathingLoop(ledeSealFrame);
+startBreathingLoop(characterPortraitFrame);
+startLoadingSequence();

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI激励-海豹上岸游记</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260906-7" />
+  </head>
+  <body>
+    <div class="portfolio-supplement-nav">
+      <a href="./index.html#work"><span aria-hidden="true">←</span> 返回项目目录</a>
+      <span>海豹上岸游记 · 项目详情</span>
+    </div>
+
+    <main class="showcase" aria-live="polite">
+      <section class="scene-stage">
+        <header class="project-header">
+          <div>
+            <p>PROJECT ARCHIVE</p>
+            <h1>AI激励-海豹上岸游记</h1>
+          </div>
+          <p>从角色设定到多端互动，构建可持续扩展的 IP 体验系统</p>
+        </header>
+
+        <div class="title-row">
+          <div>
+            <p class="kicker">手机/Pad展示：</p>
+            <p class="stage-title">场景适配</p>
+          </div>
+          <div class="scene-count">
+            <span id="sceneIndex">01</span>
+            <span>/</span>
+            <span id="sceneTotal">06</span>
+          </div>
+        </div>
+
+        <div class="device-composition">
+          <div class="pad-frame" aria-label="PAD端展示">
+            <video id="padVideo" autoplay muted loop playsinline preload="auto">
+              <source src="./assets/scenes/scene-01-ice.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <div class="phone-frame" aria-label="手机端播放器展示">
+            <div class="phone-screen">
+              <video id="phoneVideo" autoplay muted loop playsinline preload="auto">
+                <source src="./assets/scenes/scene-01-ice.mp4" type="video/mp4" />
+              </video>
+              <div class="static-ui-layer" aria-label="静态UI展示">
+                <img class="static-title" src="./assets/static-ui/title.png" alt="萌力启航 海豹上岸游记" />
+                <button class="tease-button" id="teaseSeal" type="button" aria-label="撩一下海豹">
+                  <img class="static-button" src="./assets/static-ui/button.png" alt="" />
+                  <img class="static-tag" src="./assets/static-ui/tag.png" alt="" />
+                </button>
+              </div>
+              <img id="sealFrame" class="seal-animation" alt="看书海豹循环动作" />
+            </div>
+          </div>
+        </div>
+
+        <div class="control-panel">
+          <div class="action-panel">
+            <span class="action-label">海豹动作：</span>
+            <div class="action-buttons" id="actionButtons" aria-label="海豹动作切换"></div>
+          </div>
+
+          <div class="controls">
+            <div class="scene-meta">
+              <span>当前场景：</span>
+              <strong id="sceneName">南极冰块</strong>
+            </div>
+            <div class="control-actions">
+              <button class="next-button" id="nextScene" type="button">场景切换</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="project-story" aria-label="项目正文">
+        <div class="case-sections">
+          <section class="project-lede" aria-label="项目概览">
+            <div class="lede-copy">
+              <p class="chapter-mark">01</p>
+              <h3>以海豹IP为起点，<br />构建可漫游体验世界<br />打造可视激励。</h3>
+              <p>从角色设定延展到六组场景、两端体验与互动动作，让所有资产共同服务于同一套世界观。</p>
+              <dl class="project-facts">
+                <div><dt>角色动作</dt><dd>10+</dd></div>
+                <div><dt>主题场景</dt><dd>06</dd></div>
+                <div><dt>展示终端</dt><dd>02</dd></div>
+              </dl>
+            </div>
+            <div class="lede-visual" aria-label="海豹与场景主视觉">
+              <video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-03-sakura.mp4" type="video/mp4" /></video>
+              <img id="ledeSealFrame" src="./assets/seal/breathing/000.png?v=2" alt="坐在樱花场景中呼吸的海豹" />
+            </div>
+          </section>
+
+          <section class="story-chapter character-chapter" aria-labelledby="characterTitle">
+            <header class="chapter-heading">
+              <span class="chapter-serial">02</span>
+              <h3 id="characterTitle">从主视觉出发，<br />让角色持续演绎。</h3>
+              <p>固定轮廓、比例与表情语言，再以多组动作延展角色的情绪、剧情与传播能力。</p>
+            </header>
+            <div class="character-layout">
+              <figure class="character-portrait">
+                <img id="characterPortraitFrame" src="./assets/seal/breathing/000.png?v=2" alt="海豹呼吸主视觉形象" />
+                <figcaption>主视觉形象</figcaption>
+              </figure>
+              <div class="action-rail" aria-label="海豹动作展示">
+                <figure><img src="./assets/seal/actions/late-night/000.png" data-action-folder="./assets/seal/actions/late-night" data-action-frames="444" alt="熬夜动作" /><figcaption>熬夜</figcaption></figure>
+                <figure><img src="./assets/seal/actions/report/000.png" data-action-folder="./assets/seal/actions/report" data-action-frames="384" alt="报告动作" /><figcaption>报告</figcaption></figure>
+                <figure><img src="./assets/seal/actions/explosion/000.png" data-action-folder="./assets/seal/actions/explosion" data-action-frames="468" alt="爆炸动作" /><figcaption>爆炸</figcaption></figure>
+                <figure><img src="./assets/seal/actions/guitar/000.png" data-action-folder="./assets/seal/actions/guitar" data-action-frames="377" alt="吉他动作" /><figcaption>吉他</figcaption></figure>
+                <figure><img src="./assets/seal/actions/exam/000.png" data-action-folder="./assets/seal/actions/exam" data-action-frames="319" alt="考神动作" /><figcaption>考神</figcaption></figure>
+                <figure><img src="./assets/seal/actions/slacking/000.png" data-action-folder="./assets/seal/actions/slacking" data-action-frames="281" alt="摸鱼动作" /><figcaption>摸鱼</figcaption></figure>
+                <figure><img src="./assets/seal/actions/spray/000.png" data-action-folder="./assets/seal/actions/spray" data-action-frames="450" alt="喷雾动作" /><figcaption>喷雾</figcaption></figure>
+                <figure><img src="./assets/seal/actions/whisk/000.png" data-action-folder="./assets/seal/actions/whisk" data-action-frames="321" alt="拂尘动作" /><figcaption>拂尘</figcaption></figure>
+              </div>
+            </div>
+          </section>
+
+          <section class="story-chapter world-chapter" aria-labelledby="worldTitle">
+            <header class="chapter-heading heading-right">
+              <span class="chapter-serial">03</span>
+              <h3 id="worldTitle">六阶里程，远海驶向岸边</h3>
+              <p>统一视觉体系下，载具逐次升级、距离不断拉近，用场景进阶标记每一段突破</p>
+            </header>
+            <div class="world-feature">
+              <video id="worldVideo" autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-05-desert-boat.mp4" type="video/mp4" /></video>
+              <div class="world-controls" aria-label="大屏场景切换">
+                <button id="previousWorldScene" type="button" aria-label="上一个场景"><span aria-hidden="true">&#8249;</span></button>
+                <button id="nextWorldScene" type="button" aria-label="下一个场景"><span aria-hidden="true">&#8250;</span></button>
+              </div>
+              <div class="world-note"><strong>场景提示词结构</strong><span>风格种子 / 主体 / 环境 / 构图 / 光影</span></div>
+            </div>
+            <div class="scene-catalog" aria-label="六个主题场景">
+              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-01-ice.mp4" type="video/mp4" /></video><figcaption><span>01</span> 南极冰块</figcaption></figure>
+              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-02-raft.mp4" type="video/mp4" /></video><figcaption><span>02</span> 奇石木筏</figcaption></figure>
+              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-06-volcano.mp4" type="video/mp4" /></video><figcaption><span>03</span> 火山</figcaption></figure>
+              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-03-sakura.mp4" type="video/mp4" /></video><figcaption><span>04</span> 樱花气垫</figcaption></figure>
+              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-05-desert-boat.mp4" type="video/mp4" /></video><figcaption><span>05</span> 沙漠小船</figcaption></figure>
+              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-04-beach-chair.mp4" type="video/mp4" /></video><figcaption><span>06</span> 沙滩木椅</figcaption></figure>
+            </div>
+          </section>
+
+          <section class="story-chapter motion-chapter" aria-labelledby="motionTitle">
+            <div class="motion-intro">
+              <header class="motion-copy">
+                <span class="chapter-serial">04</span>
+                <h3 id="motionTitle">激励延伸，热点跟随<br />促新人留存，扩充动作资源</h3>
+                <p>海豹舞蹈探索，舞台主题设定</p>
+              </header>
+              <figure class="motion-key-visual"><img src="./assets/project-images/motion-inspiration.png" alt="海豹角色设定与多角度形象展示" /></figure>
+            </div>
+            <div class="motion-stage">
+              <button class="motion-phone" id="motionPhone" type="button" aria-label="播放海豹舞蹈视频">
+                <video id="motionVideo" playsinline loop preload="metadata">
+                  <source src="./assets/motion/chaba-2.mp4" type="video/mp4" />
+                </video>
+                <svg class="motion-play-icon" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <circle cx="30" cy="30" r="30" fill="black" fill-opacity="0.2" />
+                  <circle cx="30" cy="30" r="29.7794" stroke="#EFEFEF" stroke-opacity="0.2" stroke-width="0.441176" />
+                  <path d="M40.4127 27.1911C42.4184 28.5963 42.4184 31.5671 40.4127 32.9723L29.5547 40.5795C27.2156 42.2183 24.0001 40.545 24.0001 37.6889V22.4745C24.0001 19.6185 27.2156 17.9452 29.5547 19.5839L40.4127 27.1911Z" fill="white" />
+                </svg>
+              </button>
+              <div class="motion-board">
+                <div class="motion-board-copy">
+                  <p>舞蹈内容落地提供<span>剧本</span>与<span>纯文本提示</span>两种实现路径。剧本在生成稳定性与动作连贯性上表现突出，可依托海豹 IP 性格与剧情设定，完成系统化动作编排，但难以适配快节奏舞蹈场景——<strong>节奏提速会直接造成细节损耗，过度顺滑的动作衔接，反而成为表现短板。</strong></p>
+                  <p>纯文本提示对创作精度要求极高，且单条提示词在视频生成中的权重无法直观判定，经多轮迭代测试，最终沉淀最优提示词框架：<span>镜头 + 主体 + 环境 + 动作 + 动作特点 + 音乐节奏</span>。</p>
+                </div>
+                <div class="motion-board-sequences">
+                  <span class="motion-board-label" aria-hidden="true">动态分镜</span>
+                  <div class="motion-storyboards" aria-label="海豹舞蹈 GIF 分镜展示">
+                    <figure class="motion-film" aria-label="哈达舞蹈前后两段">
+                      <img class="motion-film-frame" src="./assets/project-images/motion-film-frame.png?v=20260715-3" alt="" />
+                      <span class="motion-film-slot motion-film-slot-top"><img src="./assets/motion/gifs/hada-01.gif" alt="哈达舞蹈前半段" /></span>
+                      <span class="motion-film-slot motion-film-slot-bottom"><img src="./assets/motion/gifs/hada-02.gif" alt="哈达舞蹈后半段" /></span>
+                    </figure>
+                    <figure class="motion-film" aria-label="肯恰那舞蹈前后两段">
+                      <img class="motion-film-frame" src="./assets/project-images/motion-film-frame.png?v=20260715-3" alt="" />
+                      <span class="motion-film-slot motion-film-slot-top"><img src="./assets/motion/gifs/kenchana-01.gif" alt="肯恰那舞蹈前半段" /></span>
+                      <span class="motion-film-slot motion-film-slot-bottom"><img src="./assets/motion/gifs/kenchana-02.gif" alt="肯恰那舞蹈后半段" /></span>
+                    </figure>
+                    <figure class="motion-film" aria-label="恰巴舞蹈前后两段">
+                      <img class="motion-film-frame" src="./assets/project-images/motion-film-frame.png?v=20260715-3" alt="" />
+                      <span class="motion-film-slot motion-film-slot-top"><img src="./assets/motion/gifs/chaba-01.gif" alt="恰巴舞蹈前半段" /></span>
+                      <span class="motion-film-slot motion-film-slot-bottom"><img src="./assets/motion/gifs/chaba-02.gif" alt="恰巴舞蹈后半段" /></span>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <section class="portfolio-pdf-supplement" id="portfolioSupplement" aria-label="海豹项目作品集补充页面">
+      <div class="portfolio-pdf-pages">
+        <img src="./assets/portfolio/cases/seal/page-25.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 1 页" loading="lazy" decoding="async" />
+        <img src="./assets/portfolio/cases/seal/page-26.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 2 页" loading="lazy" decoding="async" />
+        <img src="./assets/portfolio/cases/seal/page-27.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 3 页" loading="lazy" decoding="async" />
+        <img src="./assets/portfolio/cases/seal/page-28.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 4 页" loading="lazy" decoding="async" />
+        <img src="./assets/portfolio/cases/seal/page-29.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 5 页" loading="lazy" decoding="async" />
+        <img src="./assets/portfolio/cases/seal/page-30.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 6 页" loading="lazy" decoding="async" />
+        <img src="./assets/portfolio/cases/seal/page-31.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 7 页" loading="lazy" decoding="async" />
+        <img src="./assets/portfolio/cases/seal/page-32.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 8 页" loading="lazy" decoding="async" />
+      </div>
+    </section>
+
+    <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="正在加载海豹场景">
+      <div class="loading-card">
+        <div class="loading-seal-stage" aria-hidden="true">
+          <span class="loading-shadow"></span>
+          <span class="loading-grass"></span>
+          <img class="loading-seal" src="./assets/seal/read/000.png" alt="" />
+        </div>
+        <div class="loading-progress" aria-hidden="true"><span id="loadingProgress"></span></div>
+        <p>正在召唤小海豹 <span id="loadingPercentage">0%</span></p>
+      </div>
+    </div>
+
+    <script src="./script.js?v=20260716-26"></script>
+  </body>
+</html>

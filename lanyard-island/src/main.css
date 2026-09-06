@@ -1,0 +1,28 @@
+#resumeLanyard .lanyard-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+#resumeLanyard canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#sideRaysRoot {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  pointer-events: none;
+}
+
+.site-side-rays {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: max(1080px, 100vw);
+  height: max(1080px, 100vh);
+  opacity: 1;
+  pointer-events: none;
+  mix-blend-mode: normal;
+}

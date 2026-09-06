@@ -1,0 +1,220 @@
+:root {
+  --case-top-space: clamp(96px, 10vw, 136px);
+  --case-top-start: #e8edf7;
+  --case-top-end: #c0c7d8;
+  color-scheme: dark;
+  font-family: Inter, "PingFang SC", "HarmonyOS Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #020713;
+  color: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #020713;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: linear-gradient(180deg, var(--case-top-start) 0, var(--case-top-end) var(--case-top-space), #020713 var(--case-top-space));
+}
+
+body[data-project="employment"] {
+  --case-top-start: #f2f4f7;
+  --case-top-end: #f2f4f7;
+}
+
+body[data-project="speaker"] {
+  --case-top-start: #e6f7ff;
+  --case-top-end: #9ad9fc;
+}
+
+body[data-project="wuniu"] {
+  --case-top-start: #f2f4f7;
+  --case-top-end: #f2f4f7;
+}
+
+.case-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 40;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.case-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #6f84ff, #63ccff);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.case-toolbar {
+  position: fixed;
+  top: clamp(16px, 2.5vw, 32px);
+  left: 50%;
+  z-index: 30;
+  display: flex;
+  width: min(calc(100vw - 32px), 620px);
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 8px 12px 8px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(2, 7, 19, 0.82);
+  box-shadow: 0 14px 48px rgba(0, 0, 0, 0.34);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  backdrop-filter: blur(18px) saturate(1.25);
+  transform: translateX(-50%);
+}
+
+.case-toolbar a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.case-toolbar a:hover,
+.case-toolbar a:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  outline: none;
+}
+
+.case-toolbar > div {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.case-toolbar strong {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.case-toolbar small {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.case-gallery {
+  display: grid;
+  width: min(100%, 1920px);
+  margin: 0 auto;
+  padding: var(--case-top-space) 0 0;
+  gap: 2px;
+}
+
+.case-slide {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #080b12;
+}
+
+.case-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #080b12;
+}
+
+.case-slide:first-child {
+  background: var(--case-top-end);
+}
+
+.case-slide:first-child img {
+  background: var(--case-top-end);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.12) 18px, rgba(0, 0, 0, 0.62) 58px, #000 112px);
+  mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, 0.12) 18px, rgba(0, 0, 0, 0.62) 58px, #000 112px);
+}
+
+.case-slide:first-child::after {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 84px;
+  background: rgba(255, 255, 255, 0.001);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0, rgba(0, 0, 0, 0.42) 48%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0, rgba(0, 0, 0, 0.42) 48%, transparent 100%);
+  content: "";
+  pointer-events: none;
+}
+
+.case-error {
+  display: grid;
+  min-height: 70vh;
+  place-items: center;
+  padding: 32px;
+  color: rgba(255, 255, 255, 0.66);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --case-top-space: 80px;
+  }
+
+  .case-toolbar {
+    min-height: 52px;
+    gap: 8px;
+    padding: 6px 8px;
+  }
+
+  .case-toolbar a {
+    padding: 0 10px;
+    font-size: 12px;
+  }
+
+  .case-toolbar > div {
+    gap: 10px;
+  }
+
+  .case-toolbar strong {
+    max-width: 42vw;
+    font-size: 12px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

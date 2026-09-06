@@ -1,0 +1,41 @@
+.liquid-glass-nav-active {
+  display: block !important;
+  overflow: hidden;
+}
+
+.liquid-glass-nav-active-surface {
+  background: rgba(4, 4, 10, 0.98) !important;
+}
+
+.liquid-glass-nav-icon {
+  flex-basis: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.liquid-glass-nav-icon > img[src*="resume.svg"] {
+  width: 14.882px;
+  height: 15.838px;
+}
+
+.liquid-glass-nav-icon > img[src*="project.svg"] {
+  width: 14.882px;
+  height: 14.882px;
+}
+
+.liquid-glass-nav-icon:has(> img[src*="contact-frame.svg"]) {
+  background: url("./assets/portfolio/navigation/contact.svg") center / 18px 18px no-repeat;
+}
+
+.liquid-glass-nav-icon:has(> img[src*="contact-frame.svg"]) > img {
+  display: none;
+}
+
+.liquid-glass-nav-label .liquid-glass-nav-icon {
+  opacity: 0.7;
+}
+
+.liquid-glass-nav-active-label .liquid-glass-nav-icon {
+  opacity: 1;
+  filter: none;
+}
