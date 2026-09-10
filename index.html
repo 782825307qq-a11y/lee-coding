@@ -3,12 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      if (!location.hash || location.hash === "#top" || location.hash === "#cover") {
+        document.documentElement.classList.add("site-loading");
+      }
+    </script>
     <script src="./mobile-viewport.js?v=20260908-1920-1"></script>
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="李昊宇，UI、AI 与视觉设计师个人作品集。" />
     <title>李昊宇｜UI · AI · Visual Designer</title>
     <link rel="icon" href="./assets/portfolio/navigation/project.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./portfolio.css?v=20260909-polish-5" />
+    <link rel="stylesheet" href="./portfolio.css?v=20260910-loading-2" />
     <link rel="stylesheet" href="./assets/portfolio/vendor/lenis.css?v=1.3.26" />
     <link rel="preload" href="./assets/portfolio/mckp/scene.glb" as="fetch" crossorigin="anonymous" />
     <link rel="preload" href="./assets/portfolio/mckp/mckp-player.js?v=20260826-1" as="script" fetchpriority="high" />
@@ -39,15 +44,17 @@
           <span>联系</span>
         </a>
       </div>
-      <button class="nav-fluid-button" type="button" aria-label="Lee.Coding，Logic meets aesthetics">
-        <span class="nav-fluid-avatar" aria-hidden="true">
-          <img src="./assets/portfolio/navigation/lee-coding-avatar.webp" alt="" />
-        </span>
-        <span class="nav-fluid-copy">
-          <strong>Lee.Coding<span aria-hidden="true">*</span></strong>
-          <small>Logic meets aesthetics</small>
-        </span>
-      </button>
+      <div class="nav-fluid-hotzone">
+        <button class="nav-fluid-button" type="button" aria-label="Lee.Coding，Logic meets aesthetics">
+          <span class="nav-fluid-avatar" aria-hidden="true">
+            <img src="./assets/portfolio/navigation/lee-coding-avatar.webp" alt="" />
+          </span>
+          <span class="nav-fluid-copy">
+            <strong>Lee.Coding<span aria-hidden="true">*</span></strong>
+            <small>Logic meets aesthetics</small>
+          </span>
+        </button>
+      </div>
     </nav>
 
     <main>
@@ -106,6 +113,14 @@
             </footer>
           </section>
 
+          <div class="site-load-gate" id="siteLoadGate" role="status" aria-live="polite">
+            <div class="site-load-gate__copy">
+              <span id="siteLoadLabel">正在准备作品集 · 预计约 3 秒</span>
+              <strong id="siteLoadPercent">0%</strong>
+            </div>
+            <span class="site-load-gate__track" aria-hidden="true"><i id="siteLoadProgress"></i></span>
+            <small id="siteLoadHint">基础内容就绪后即可向下浏览</small>
+          </div>
           <a class="scroll-cue" href="#cover"><span>SCROLL TO ENTER</span><i aria-hidden="true"></i></a>
         </div>
         <span class="cover-anchor" id="cover" aria-hidden="true"></span>
@@ -256,7 +271,7 @@
     <script src="./assets/portfolio/vendor/lenis.min.js?v=1.3.26"></script>
     <script src="./assets/portfolio/vendor/gsap.min.js?v=3.15.0"></script>
     <script src="./deferred-media.js?v=20260907-lossless-1"></script>
-    <script src="./portfolio.js?v=20260909-polish-5"></script>
+    <script src="./portfolio.js?v=20260910-loading-2"></script>
     <script src="./pixel-swap-transition.js?v=20260820-1"></script>
     <script type="module" src="./assets/portfolio/lanyard-island/lanyard-20260908.js"></script>
   </body>

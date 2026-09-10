@@ -44,11 +44,17 @@ const resumeSection = document.querySelector("#profile");
 const projectsSection = document.querySelector("#work");
 const contactSection = document.querySelector("#contact");
 const navFluidButton = document.querySelector(".nav-fluid-button");
+const navFluidHotzone = document.querySelector(".nav-fluid-hotzone");
 const navLinksContainer = document.querySelector(".nav-links");
 const sectionNavLinks = [...document.querySelectorAll(".nav-link[data-nav-index]")];
 const mockupShell = document.querySelector("#mockupShell");
 const heroMockup = document.querySelector("#heroMockup");
 const scrollCue = document.querySelector(".scroll-cue");
+const siteLoadGate = document.querySelector("#siteLoadGate");
+const siteLoadLabel = document.querySelector("#siteLoadLabel");
+const siteLoadPercent = document.querySelector("#siteLoadPercent");
+const siteLoadProgress = document.querySelector("#siteLoadProgress");
+const siteLoadHint = document.querySelector("#siteLoadHint");
 const coverHome = document.querySelector("#coverHome");
 const coverWindow = document.querySelector("#coverWindow");
 const coverArt = document.querySelector("#coverArt");
@@ -110,6 +116,102 @@ const smoothScroller = window.Lenis && !window.portfolioTouchLayout
       overscroll: true,
     })
   : null;
+
+const entryGateMaximumMs = 2800;
+
+function preloadEntryImage(source) {
+  return new Promise((resolve) => {
+    const image = new Image();
+    const finish = () => resolve(source);
+    image.addEventListener("load", finish, { once: true });
+    image.addEventListener("error", finish, { once: true });
+    image.decoding = "async";
+    image.src = source;
+    if (image.complete) finish();
+  });
+}
+
+function waitForCoverVideoFrame() {
+  if (!coverBackgroundVideo || coverBackgroundVideo.readyState >= 2) return Promise.resolve();
+  return new Promise((resolve) => {
+    const finish = () => resolve();
+    coverBackgroundVideo.addEventListener("loadeddata", finish, { once: true });
+    coverBackgroundVideo.addEventListener("canplay", finish, { once: true });
+    coverBackgroundVideo.addEventListener("error", finish, { once: true });
+    prepareCoverBackgroundVideo();
+  });
+}
+
+function updateEntryGateProgress(value) {
+  const rounded = Math.max(0, Math.min(100, Math.round(value)));
+  if (siteLoadPercent) siteLoadPercent.textContent = `${rounded}%`;
+  if (siteLoadProgress) siteLoadProgress.style.transform = `scaleX(${rounded / 100})`;
+}
+
+async function startEntryGate() {
+  const shouldGate = document.documentElement.classList.contains("site-loading");
+  if (!siteLoadGate || !shouldGate) {
+    if (siteLoadGate) siteLoadGate.hidden = true;
+    document.documentElement.classList.remove("site-loading");
+    return;
+  }
+
+  document.body.setAttribute("aria-busy", "true");
+  smoothScroller?.stop();
+  window.scrollTo(0, 0);
+  prepareCoverBackgroundVideo();
+
+  const imageSources = [
+    "./assets/portfolio/cover-title-20260903.webp",
+    "./assets/portfolio/cover-ring-20260903.webp",
+    "./assets/portfolio/resume-background-20260903.webp",
+    "./assets/portfolio/resume-glow.webp",
+    "./assets/portfolio/directory-background-20260903.webp",
+    ...projects.map((project) => project.image),
+  ];
+  const tasks = [...new Set(imageSources)].map(preloadEntryImage);
+  tasks.unshift(waitForCoverVideoFrame());
+
+  let settled = 0;
+  let reachedStandard = false;
+  const startedAt = performance.now();
+  const trackedTasks = tasks.map((task) => Promise.resolve(task).finally(() => {
+    settled += 1;
+  }));
+  const allEssentials = Promise.allSettled(trackedTasks).then(() => {
+    reachedStandard = true;
+  });
+  const minimumDisplay = new Promise((resolve) => window.setTimeout(resolve, 620));
+  const deadline = new Promise((resolve) => window.setTimeout(resolve, entryGateMaximumMs));
+
+  const progressTimer = window.setInterval(() => {
+    const elapsedRatio = Math.min(1, (performance.now() - startedAt) / entryGateMaximumMs);
+    const resourceRatio = settled / Math.max(1, tasks.length);
+    updateEntryGateProgress(Math.min(94, Math.max(elapsedRatio * 76, resourceRatio * 92)));
+    if (elapsedRatio > 0.72 && siteLoadHint) siteLoadHint.textContent = "高清内容正在后台继续准备";
+  }, 70);
+
+  await Promise.all([Promise.race([allEssentials, deadline]), minimumDisplay]);
+  window.clearInterval(progressTimer);
+  updateEntryGateProgress(100);
+  if (siteLoadLabel) {
+    siteLoadLabel.textContent = reachedStandard ? "加载完成 · 可以向下浏览" : "基础内容已就绪 · 可以向下浏览";
+  }
+  if (siteLoadHint) {
+    siteLoadHint.textContent = reachedStandard ? "作品集已准备完成" : "其余高清内容将在后台继续加载";
+  }
+
+  window.setTimeout(() => {
+    document.documentElement.classList.remove("site-loading");
+    document.documentElement.classList.add("site-ready");
+    document.body.removeAttribute("aria-busy");
+    smoothScroller?.start();
+    siteLoadGate.classList.add("is-complete");
+    window.setTimeout(() => {
+      siteLoadGate.hidden = true;
+    }, 650);
+  }, 100);
+}
 
 function showToast(message) {
   if (!toast) return;
@@ -208,8 +310,8 @@ function scheduleNavFluidCollapse() {
   }, 280);
 }
 
-navFluidButton?.addEventListener("pointerenter", scheduleNavFluidExpansion);
-navFluidButton?.addEventListener("pointerleave", scheduleNavFluidCollapse);
+navFluidHotzone?.addEventListener("pointerenter", scheduleNavFluidExpansion);
+navFluidHotzone?.addEventListener("pointerleave", scheduleNavFluidCollapse);
 navFluidButton?.addEventListener("focusin", () => {
   window.clearTimeout(navFluidCollapseTimer);
   navFluidButton.classList.add("is-expanded");
@@ -1041,6 +1143,7 @@ if (contactVideo) {
 }
 
 renderProjects();
+startEntryGate();
 updatePlaybackButton();
 updateSoundButton();
 updateActiveNavigation();

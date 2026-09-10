@@ -25,14 +25,14 @@ const scenes = [
 
 const sealActions = [
   { name: "看书", src: "./assets/seal/animated/read.webp", poster: "./assets/seal/read/000.webp", frames: 161 },
-  { name: "熬夜", src: "./assets/seal/animated/late-night.webp", poster: "./assets/seal/actions/late-night/000.webp", frames: 444 },
-  { name: "报告", src: "./assets/seal/animated/report.webp", poster: "./assets/seal/actions/report/000.webp", frames: 384 },
-  { name: "爆炸", src: "./assets/seal/animated/explosion.webp", poster: "./assets/seal/actions/explosion/000.webp", frames: 468 },
-  { name: "吉他", src: "./assets/seal/animated/guitar.webp", poster: "./assets/seal/actions/guitar/000.webp", frames: 377 },
-  { name: "考神", src: "./assets/seal/animated/exam.webp", poster: "./assets/seal/actions/exam/000.webp", frames: 319 },
-  { name: "摸鱼", src: "./assets/seal/animated/slacking.webp", poster: "./assets/seal/actions/slacking/000.webp", frames: 281 },
-  { name: "喷雾", src: "./assets/seal/animated/spray.webp", poster: "./assets/seal/actions/spray/000.webp", frames: 450 },
-  { name: "甩拂尘", src: "./assets/seal/animated/whisk.webp", poster: "./assets/seal/actions/whisk/000.webp", frames: 321 },
+  { name: "熬夜", src: "./assets/seal/animated/late-night.webp", poster: "./assets/seal/posters/late-night.webp", frames: 444 },
+  { name: "报告", src: "./assets/seal/animated/report.webp", poster: "./assets/seal/posters/report.webp", frames: 384 },
+  { name: "爆炸", src: "./assets/seal/animated/explosion.webp", poster: "./assets/seal/posters/explosion.webp", frames: 468 },
+  { name: "吉他", src: "./assets/seal/animated/guitar.webp", poster: "./assets/seal/posters/guitar.webp", frames: 377 },
+  { name: "考神", src: "./assets/seal/animated/exam.webp", poster: "./assets/seal/posters/exam.webp", frames: 319 },
+  { name: "摸鱼", src: "./assets/seal/animated/slacking.webp", poster: "./assets/seal/posters/slacking.webp", frames: 281 },
+  { name: "喷雾", src: "./assets/seal/animated/spray.webp", poster: "./assets/seal/posters/spray.webp", frames: 450 },
+  { name: "甩拂尘", src: "./assets/seal/animated/whisk.webp", poster: "./assets/seal/posters/whisk.webp", frames: 321 },
 ];
 
 const reactionActions = [
