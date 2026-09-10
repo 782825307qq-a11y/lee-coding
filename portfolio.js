@@ -3,7 +3,7 @@ const projects = [
     number: "01",
     title: "精品就业班 · UI / 工作流",
     label: "精品就业班-UI/工作流",
-    image: "./assets/portfolio/figma-directory/employment-workflow-20260902.png",
+    image: "./assets/portfolio/figma-directory/employment-workflow-20260902.webp",
     href: "./case.html?project=employment",
     status: "live",
     tint: "rgba(221, 225, 255, 0.94)",
@@ -12,7 +12,7 @@ const projects = [
     number: "02",
     title: "海豹上岸游记 · 活动体系",
     label: "海豹上岸游记-活动体系",
-    image: "./assets/portfolio/figma-directory/seal-campaign-20260902.png",
+    image: "./assets/portfolio/figma-directory/seal-campaign-20260902.webp",
     href: "./seal.html?v=20260906-1",
     status: "live",
     tint: "rgba(255, 250, 217, 0.95)",
@@ -21,7 +21,7 @@ const projects = [
     number: "03",
     title: "智能音箱 · IP 与成长体系",
     label: "智能音箱-IP与成长体系",
-    image: "./assets/portfolio/figma-directory/smart-speaker-growth-20260902.png",
+    image: "./assets/portfolio/figma-directory/smart-speaker-growth-20260902.webp",
     href: "./case.html?project=speaker",
     status: "live",
     tint: "rgba(194, 243, 255, 0.98)",
@@ -31,7 +31,7 @@ const projects = [
     number: "04",
     title: "悟牛 APP · 0 到 1 K12",
     label: "悟牛APP- 0到1K12",
-    image: "./assets/portfolio/figma-directory/k12-app-20260902.png",
+    image: "./assets/portfolio/figma-directory/k12-app-20260902.webp",
     href: "./case.html?project=wuniu",
     status: "live",
     tint: "rgba(213, 255, 213, 0.97)",
@@ -70,7 +70,7 @@ const contactVideo = document.querySelector("#contactVideo");
 const togglePlayback = document.querySelector("#togglePlayback");
 const toggleSound = document.querySelector("#toggleSound");
 const heroMockupId = heroMockup?.getAttribute("mockup-id");
-const localMockupRecordUrl = "./assets/portfolio/mckp/scene.json?v=20260905-1";
+const localMockupRecordUrl = "./assets/portfolio/mckp/scene.json?v=20260907-lossless-2";
 const localMockupPlayerUrl = "./assets/portfolio/mckp/mckp-player.js?v=20260826-1";
 
 let activeProject = 2;
@@ -96,8 +96,10 @@ let renderedHeroProgress;
 let projectsIntroPlayed = false;
 let hoveredProject = null;
 let projectBounceTimer;
+let navFluidExpandTimer;
+let navFluidCollapseTimer;
 const bounceCardsGsap = window.gsap;
-const smoothScroller = window.Lenis
+const smoothScroller = window.Lenis && !window.portfolioTouchLayout
   ? new window.Lenis({
       autoRaf: true,
       anchors: true,
@@ -143,14 +145,18 @@ function positionWechatQr() {
   const iconBounds = wechatContactIcon.getBoundingClientRect();
   const qrWidth = 140;
   const qrHeight = 148;
-  const qrGap = 12;
+  // The source image has about 22 CSS pixels of transparent/shadow padding
+  // below the visible speech-bubble tail. Offset it so the visible edges sit
+  // 2 CSS pixels apart instead of spacing from the image canvas edge.
+  const qrGap = 2;
+  const qrVisualBottomInset = 22;
   const viewportInset = 12;
-  const preferredLeft = iconBounds.left - 46;
+  const preferredLeft = iconBounds.left + (iconBounds.width - qrWidth) / 2;
   const left = Math.min(
     Math.max(preferredLeft, viewportInset),
     window.innerWidth - qrWidth - viewportInset,
   );
-  const preferredTop = iconBounds.top - qrHeight - qrGap;
+  const preferredTop = iconBounds.top - qrHeight - qrGap + qrVisualBottomInset;
   const top = Math.max(preferredTop, viewportInset);
 
   wechatQr.style.setProperty("--wechat-qr-left", `${left}px`);
@@ -171,8 +177,6 @@ function hideWechatQr() {
 }
 
 if (wechatContact && wechatQr) {
-  // Keep the scannable artwork outside the contact section's stacking context so
-  // the global light-rays layer can never tint or dim the QR pixels.
   document.body.appendChild(wechatQr);
   wechatContact.addEventListener("pointerenter", showWechatQr);
   wechatContact.addEventListener("pointerleave", hideWechatQr);
@@ -180,17 +184,37 @@ if (wechatContact && wechatQr) {
   wechatContact.addEventListener("focusout", (event) => {
     if (!wechatContact.contains(event.relatedTarget)) hideWechatQr();
   });
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (wechatQrVisible) positionWechatQr();
-    },
-    { passive: true },
-  );
+  window.addEventListener("scroll", () => {
+    if (wechatQrVisible) positionWechatQr();
+  }, { passive: true });
   window.addEventListener("resize", () => {
     if (wechatQrVisible) positionWechatQr();
   });
 }
+
+function scheduleNavFluidExpansion() {
+  window.clearTimeout(navFluidCollapseTimer);
+  window.clearTimeout(navFluidExpandTimer);
+  navFluidExpandTimer = window.setTimeout(() => {
+    navFluidButton?.classList.add("is-expanded");
+  }, 140);
+}
+
+function scheduleNavFluidCollapse() {
+  window.clearTimeout(navFluidExpandTimer);
+  window.clearTimeout(navFluidCollapseTimer);
+  navFluidCollapseTimer = window.setTimeout(() => {
+    navFluidButton?.classList.remove("is-expanded");
+  }, 280);
+}
+
+navFluidButton?.addEventListener("pointerenter", scheduleNavFluidExpansion);
+navFluidButton?.addEventListener("pointerleave", scheduleNavFluidCollapse);
+navFluidButton?.addEventListener("focusin", () => {
+  window.clearTimeout(navFluidCollapseTimer);
+  navFluidButton.classList.add("is-expanded");
+});
+navFluidButton?.addEventListener("focusout", scheduleNavFluidCollapse);
 
 function revealMockup() {
   if (!mockupShell || mockupReady) return;
@@ -198,6 +222,7 @@ function revealMockup() {
   mockupReady = true;
   mockupFallback.hidden = true;
   mockupShell.classList.remove("is-loading", "has-fallback");
+  prepareCoverBackgroundVideo();
 }
 
 function showMockupFallback() {
@@ -205,6 +230,7 @@ function showMockupFallback() {
   mockupShell.classList.add("has-fallback");
   mockupShell.classList.remove("is-loading");
   mockupFallback.hidden = false;
+  prepareCoverBackgroundVideo();
 }
 
 function startMockupIntro(controls) {
@@ -387,6 +413,7 @@ function loadMockupPlayer({ bustCache = false } = {}) {
   const retryScript = document.createElement("script");
   retryScript.src = `${localMockupPlayerUrl}${bustCache ? `&retry=${Date.now()}` : ""}`;
   retryScript.async = true;
+  retryScript.fetchPriority = "high";
   retryScript.addEventListener("error", showMockupFallback, { once: true });
   document.head.append(retryScript);
 }
@@ -414,7 +441,8 @@ function smoothstep(start, end, value) {
 }
 
 function prepareCoverBackgroundVideo() {
-  if (!coverBackgroundVideo || coverVideoReady) return;
+  if (!coverBackgroundVideo || coverVideoReady || coverBackgroundVideo.dataset.requested) return;
+  coverBackgroundVideo.dataset.requested = "true";
 
   const markReady = () => {
     coverVideoReady = true;
@@ -423,7 +451,17 @@ function prepareCoverBackgroundVideo() {
 
   coverBackgroundVideo.addEventListener("loadeddata", markReady, { once: true });
   coverBackgroundVideo.addEventListener("canplay", markReady, { once: true });
-  coverBackgroundVideo.addEventListener("error", markReady, { once: true });
+  // Keep the rendered mockup visible if the background cannot be decoded.
+  // An error is not a usable frame and must not trigger a fade to black.
+  coverBackgroundVideo.addEventListener("error", () => {
+    coverBackgroundVideo.dataset.failed = "true";
+  }, { once: true });
+  const source = coverBackgroundVideo.querySelector('source[data-src]');
+  if (source) {
+    source.src = source.dataset.src;
+    delete source.dataset.src;
+  }
+  coverBackgroundVideo.preload = "auto";
   coverBackgroundVideo.load();
 }
 
@@ -476,7 +514,10 @@ function updateHeroStory() {
   const heroTop = heroSection.offsetTop;
   const heroTravel = Math.max(1, heroSection.offsetHeight - window.innerHeight);
   const targetProgress = clamp((window.scrollY - heroTop) / heroTravel);
-  navFluidButton?.classList.toggle("is-first-screen-hidden", targetProgress > 0.055);
+  if (targetProgress > 0.01) prepareCoverBackgroundVideo();
+  const navShouldCollapse = targetProgress > 0.055;
+  navFluidButton?.classList.toggle("is-collapsed", navShouldCollapse);
+  if (!navShouldCollapse) navFluidButton?.classList.remove("is-expanded");
 
   if (targetProgress >= 0.62) {
     mockupScreenWasAway = true;
@@ -605,7 +646,6 @@ document.addEventListener("visibilitychange", () => {
 window.addEventListener("scroll", scheduleChapterWipes, { passive: true });
 window.addEventListener("resize", scheduleChapterWipes);
 window.addEventListener("pageshow", scheduleChapterWipes);
-prepareCoverBackgroundVideo();
 scheduleHeroStory();
 scheduleChapterWipes();
 
@@ -725,7 +765,7 @@ function updateProjectCards({ bounce = false } = {}) {
     card.dataset.active = String(active);
     card.dataset.hovered = String(hovered);
     card.setAttribute("aria-current", active ? "true" : "false");
-    card.tabIndex = active || distance === 1 ? 0 : -1;
+    card.tabIndex = 0;
 
     if (useBounce) {
       const delay = hoveredProject !== null && !hovered ? Math.abs(relative - hoveredRelative) * 0.05 : 0;
@@ -760,7 +800,7 @@ function renderProjects() {
             <strong>${project.label}</strong>
           </span>
           <span class="project-card-image">
-            <img src="${project.image}" alt="${project.title} 项目视觉" draggable="false" />
+            <img src="${project.image}" loading="lazy" decoding="async" alt="${project.title} 项目视觉" draggable="false" />
           </span>
         </button>`,
     )
@@ -840,6 +880,11 @@ function openProject(project) {
 
 function openAboutViewer() {
   if (!aboutViewer) return;
+  const image = aboutViewerScroll?.querySelector('img[data-src]');
+  if (image) {
+    image.src = image.dataset.src;
+    delete image.dataset.src;
+  }
   aboutViewerScroll?.scrollTo({ top: 0, behavior: "instant" });
   aboutViewer.showModal();
   document.body.classList.add("is-about-open");
@@ -861,6 +906,7 @@ aboutViewer?.addEventListener("click", (event) => {
 aboutViewer?.addEventListener(
   "wheel",
   (event) => {
+    if (event.ctrlKey) return; // Native trackpad pinch must not close the dialog.
     if (!aboutViewer.open || !aboutViewerFrame || !aboutViewerScroll) return;
     const bounds = aboutViewerFrame.getBoundingClientRect();
     const insideFrame =
@@ -959,6 +1005,7 @@ function updateSoundButton() {
 }
 
 togglePlayback?.addEventListener("click", () => {
+  window.hydrateDeferredVideo?.(contactVideo);
   if (contactVideo.paused) {
     userPausedVideo = false;
     contactVideo.play().catch(() => {});
@@ -970,6 +1017,7 @@ togglePlayback?.addEventListener("click", () => {
 });
 
 toggleSound?.addEventListener("click", () => {
+  window.hydrateDeferredVideo?.(contactVideo);
   contactVideo.muted = !contactVideo.muted;
   if (contactVideo.paused && !userPausedVideo) contactVideo.play().catch(() => {});
   updateSoundButton();
@@ -981,7 +1029,10 @@ contactVideo?.addEventListener("pause", updatePlaybackButton);
 if (contactVideo) {
   const contactVideoObserver = new IntersectionObserver(
     ([entry]) => {
-      if (entry.isIntersecting && !userPausedVideo) contactVideo.play().catch(() => {});
+      if (entry.isIntersecting && !userPausedVideo) {
+        window.hydrateDeferredVideo?.(contactVideo);
+        contactVideo.play().catch(() => {});
+      }
       if (!entry.isIntersecting) contactVideo.pause();
     },
     { threshold: 0.12 },

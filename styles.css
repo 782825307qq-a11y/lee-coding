@@ -392,6 +392,19 @@ button {
   display: grid;
   place-items: center;
   min-height: clamp(520px, 61svh, 736px);
+  opacity: 1;
+}
+
+.device-composition > .pad-frame,
+.device-composition > .phone-frame {
+  opacity: 0;
+  transition: opacity 420ms ease;
+  will-change: opacity;
+}
+
+.device-composition.is-ready > .pad-frame,
+.device-composition.is-ready > .phone-frame {
+  opacity: 1;
 }
 
 .device-composition::before {
@@ -468,7 +481,7 @@ button {
 .seal-animation {
   position: absolute;
   left: 50%;
-  bottom: 17.25%;
+  bottom: calc(17.25% - 10px);
   z-index: 3;
   width: 110%;
   height: auto;
@@ -479,25 +492,25 @@ button {
 
 @media (min-width: 821px) and (max-width: 1279px) {
   .seal-animation {
-    bottom: calc(17.25% - 15px);
+    bottom: calc(17.25% - 25px);
   }
 }
 
 @media (min-width: 1280px) and (max-width: 2048px) {
   .seal-animation {
-    bottom: calc(17.25% - 10px);
+    bottom: calc(17.25% - 20px);
   }
 }
 
 @media (min-width: 1600px) and (max-width: 1919px) {
   .is-google-chrome .seal-animation {
-    bottom: calc(17.25% - 6px);
+    bottom: calc(17.25% - 16px);
   }
 }
 
 @media (min-width: 1920px) {
   .is-google-chrome .seal-animation {
-    bottom: calc(17.25% - 15px);
+    bottom: calc(17.25% - 25px);
   }
 }
 
@@ -512,7 +525,8 @@ button {
   position: absolute;
   top: 8.4%;
   left: 50%;
-  width: 74%;
+  width: 85.8%;
+  height: auto;
   transform: translateX(-50%);
   filter: drop-shadow(0 8px 8px rgba(14, 44, 80, 0.12));
 }
@@ -522,15 +536,16 @@ button {
   top: -21%;
   right: -5%;
   z-index: 2;
-  width: 76%;
+  width: 70%;
+  height: auto;
   filter: drop-shadow(0 5px 8px rgba(255, 94, 50, 0.22));
 }
 
 .tease-button {
   position: absolute;
   left: 50%;
-  bottom: calc(6.2% - 20px);
-  width: 62%;
+  bottom: 7%;
+  width: 53%;
   padding: 0;
   border: 0;
   background: transparent;
@@ -550,6 +565,7 @@ button {
   z-index: 1;
   display: block;
   width: 100%;
+  height: auto;
   filter: drop-shadow(0 10px 12px rgba(18, 90, 140, 0.16));
 }
 
@@ -685,13 +701,20 @@ button {
 }
 
 .loading-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
   display: grid;
+  width: min(100%, 1500px, calc((100svh - 330px) * 16 / 9));
+  aspect-ratio: 16 / 9;
   place-items: center;
-  background: #ffffff;
+  overflow: hidden;
+  border-radius: clamp(14px, 1.45vw, 24px);
+  background: linear-gradient(180deg, #d9f1ff 0%, #f8fdff 43.577%, #ffffff 100%);
+  box-shadow: var(--shadow);
   opacity: 1;
+  transform: translate(-50%, -50%);
   transition: opacity 460ms ease, visibility 460ms ease;
 }
 
@@ -702,54 +725,26 @@ button {
 }
 
 .loading-card {
-  width: min(280px, calc(100vw - 48px));
+  width: 244px;
   text-align: center;
 }
 
 .loading-seal-stage {
   position: relative;
-  height: 190px;
-  overflow: hidden;
-}
-
-.loading-shadow,
-.loading-grass {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 50%;
-}
-
-.loading-shadow {
-  bottom: 22px;
-  width: 132px;
-  height: 22px;
-  background: rgba(21, 83, 33, 0.18);
-  filter: blur(7px);
-}
-
-.loading-grass {
-  bottom: 26px;
-  width: 178px;
-  height: 54px;
-  background:
-    radial-gradient(ellipse at 17% 74%, #a9d834 0 20%, transparent 21%),
-    radial-gradient(ellipse at 37% 52%, #86c928 0 26%, transparent 27%),
-    radial-gradient(ellipse at 61% 68%, #9ad82b 0 24%, transparent 25%),
-    radial-gradient(ellipse at 82% 52%, #75bd27 0 20%, transparent 21%);
+  width: 244px;
+  aspect-ratio: 244 / 302;
 }
 
 .loading-seal {
-  position: absolute;
-  bottom: 33px;
-  left: 50%;
-  width: 148px;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 12px 12px rgba(49, 75, 69, 0.16));
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .loading-progress {
-  height: 16px;
+  width: 210px;
+  height: 20px;
+  margin: 32px auto 0;
   overflow: hidden;
   border: 2px solid var(--white);
   border-radius: 999px;
@@ -762,13 +757,13 @@ button {
   width: 0;
   height: 100%;
   border-radius: inherit;
-  background: repeating-linear-gradient(90deg, #ffc204 0 10px, #ff9823 10px 15px);
+  background: repeating-linear-gradient(105deg, #ffc404 0 10px, #ff8d23 10px 16px);
   transition: width 200ms ease-out;
 }
 
 .loading-card p {
-  margin: 14px 0 0;
-  color: var(--muted);
+  margin: 12px 0 0;
+  color: #314653;
   font-size: 14px;
   font-weight: 700;
 }

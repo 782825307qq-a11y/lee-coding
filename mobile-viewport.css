@@ -1,0 +1,11 @@
+html.touch-layout { scroll-behavior: auto; }
+.touch-layout body { touch-action: pan-x pan-y pinch-zoom; }
+.touch-layout .site-nav { right: 0; left: 0; width: 100%; padding-inline: 0; }
+.touch-layout .nav-links { right: 0; left: 0; margin-inline: auto; transform: none; }
+.touch-layout #heroMockup,
+.touch-layout #resumeLanyard canvas { pointer-events: none; }
+.touch-layout .project-fan,
+.touch-layout #projectStage,
+.touch-layout .about-viewer-scroll { touch-action: pan-x pan-y pinch-zoom; }
+.touch-layout .about-viewer-scroll { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.touch-layout .cover-art { transform: none; }

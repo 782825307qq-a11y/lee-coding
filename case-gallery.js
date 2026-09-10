@@ -1,3 +1,4 @@
+const caseImageSizes = {"employment/page-04.jpg":[2560,2160],"employment/page-05.jpg":[2560,1440],"employment/page-06.jpg":[2560,1440],"employment/page-07.jpg":[2560,1440],"employment/page-08.jpg":[2560,1440],"employment/page-09.jpg":[2560,1440],"employment/page-10.jpg":[2560,1440],"employment/page-11.jpg":[2560,2400],"employment/page-12.jpg":[2560,1440],"employment/page-13.jpg":[2560,1734],"employment/page-14.jpg":[2560,1440],"employment/page-15.jpg":[2560,1440],"employment/page-16.jpg":[2560,1440],"employment/page-17.jpg":[2560,1440],"employment/page-18.jpg":[2560,1867],"employment/page-19.jpg":[2560,2800],"employment/page-20.jpg":[2560,2160],"employment/page-21.jpg":[2560,1734],"employment/page-22.jpg":[2560,1440],"employment/page-23.jpg":[2560,1440],"employment/page-24.jpg":[2560,1440],"seal/page-25.jpg":[2560,2054],"seal/page-26.jpg":[2560,2592],"seal/page-27.jpg":[2560,1440],"seal/page-28.jpg":[2560,4014],"seal/page-29.jpg":[2560,4960],"seal/page-30.jpg":[2560,3995],"seal/page-31.jpg":[2560,7840],"seal/page-32.jpg":[2560,4160],"speaker/page-33.jpg":[2560,5379],"speaker/page-34.jpg":[2560,1440],"speaker/page-35.jpg":[2560,2160],"speaker/page-36.jpg":[2560,4847],"speaker/page-37.jpg":[2560,1440],"speaker/page-38.jpg":[2560,1440],"wuniu/page-39.jpg":[2560,1440],"wuniu/page-40.jpg":[2560,1440],"wuniu/page-41.jpg":[2560,1440],"wuniu/page-42.jpg":[2560,1440],"wuniu/page-43.jpg":[2560,1440],"wuniu/page-44.jpg":[2560,1440],"wuniu/page-45.jpg":[2560,1440],"wuniu/page-46.jpg":[2560,1440],"wuniu/page-47.jpg":[2560,1440],"wuniu/page-48.jpg":[2560,2014],"wuniu/page-49.jpg":[2560,1440],"wuniu/page-50.jpg":[2560,1440],"wuniu/page-51.jpg":[2560,1440],"wuniu/page-52.jpg":[2560,4239]};
 const caseDefinitions = {
   employment: {
     title: "精品就业班 · UI / 工作流",
@@ -49,6 +50,8 @@ if (!project) {
           <img
             src="./assets/portfolio/cases/${project.directory}/page-${padPage(page)}.jpg?v=20260906-hq"
             alt="${project.title}，第 ${index + 1} 页"
+            width="${caseImageSizes[`${project.directory}/page-${padPage(page)}.jpg`][0]}"
+            height="${caseImageSizes[`${project.directory}/page-${padPage(page)}.jpg`][1]}"
             ${index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}
             decoding="async"
           />

@@ -3,14 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./mobile-viewport.js?v=20260908-1920-1"></script>
     <title>AI激励-海豹上岸游记</title>
+    <link rel="icon" href="./assets/portfolio/navigation/project.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260906-7" />
+    <link rel="stylesheet" href="./styles.css?v=20260909-loader-6" />
+      <link rel="stylesheet" href="./mobile-viewport.css?v=20260908-1920-1" />
   </head>
   <body>
     <div class="portfolio-supplement-nav">
@@ -53,13 +56,23 @@
                 <source src="./assets/scenes/scene-01-ice.mp4" type="video/mp4" />
               </video>
               <div class="static-ui-layer" aria-label="静态UI展示">
-                <img class="static-title" src="./assets/static-ui/title.png" alt="萌力启航 海豹上岸游记" />
+                <img width="580" height="272" class="static-title" src="./assets/static-ui/figma-source/title.png" alt="萌力启航 海豹上岸游记" />
                 <button class="tease-button" id="teaseSeal" type="button" aria-label="撩一下海豹">
-                  <img class="static-button" src="./assets/static-ui/button.png" alt="" />
-                  <img class="static-tag" src="./assets/static-ui/tag.png" alt="" />
+                  <img width="428" height="209" class="static-button" src="./assets/static-ui/figma-source/button.png" alt="" />
+                  <img width="309" height="90" class="static-tag" src="./assets/static-ui/figma-source/tag.png" alt="" />
                 </button>
               </div>
               <img id="sealFrame" class="seal-animation" alt="看书海豹循环动作" />
+            </div>
+          </div>
+
+          <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="正在加载海豹场景">
+            <div class="loading-card">
+              <div class="loading-seal-stage" aria-hidden="true">
+                <img width="244" height="302" class="loading-seal" src="./assets/seal/loading/loader-seal-20260909.png" alt="" />
+              </div>
+              <div class="loading-progress" aria-hidden="true"><span id="loadingProgress"></span></div>
+              <p>正在召唤小海豹 <span id="loadingPercentage">0%</span></p>
             </div>
           </div>
         </div>
@@ -96,8 +109,8 @@
               </dl>
             </div>
             <div class="lede-visual" aria-label="海豹与场景主视觉">
-              <video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-03-sakura.mp4" type="video/mp4" /></video>
-              <img id="ledeSealFrame" src="./assets/seal/breathing/000.png?v=2" alt="坐在樱花场景中呼吸的海豹" />
+              <video data-deferred data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-03-sakura.mp4" type="video/mp4" /></video>
+              <img width="710" height="880" id="ledeSealFrame" src="./assets/seal/breathing/000.webp?v=2" data-animation-src="./assets/seal/animated/breathing.webp" data-poster-src="./assets/seal/breathing/000.webp?v=2" alt="坐在樱花场景中呼吸的海豹" />
             </div>
           </section>
 
@@ -109,18 +122,18 @@
             </header>
             <div class="character-layout">
               <figure class="character-portrait">
-                <img id="characterPortraitFrame" src="./assets/seal/breathing/000.png?v=2" alt="海豹呼吸主视觉形象" />
+                <img width="710" height="880" id="characterPortraitFrame" src="./assets/seal/breathing/000.webp?v=2" data-animation-src="./assets/seal/animated/breathing.webp" data-poster-src="./assets/seal/breathing/000.webp?v=2" alt="海豹呼吸主视觉形象" />
                 <figcaption>主视觉形象</figcaption>
               </figure>
               <div class="action-rail" aria-label="海豹动作展示">
-                <figure><img src="./assets/seal/actions/late-night/000.png" data-action-folder="./assets/seal/actions/late-night" data-action-frames="444" alt="熬夜动作" /><figcaption>熬夜</figcaption></figure>
-                <figure><img src="./assets/seal/actions/report/000.png" data-action-folder="./assets/seal/actions/report" data-action-frames="384" alt="报告动作" /><figcaption>报告</figcaption></figure>
-                <figure><img src="./assets/seal/actions/explosion/000.png" data-action-folder="./assets/seal/actions/explosion" data-action-frames="468" alt="爆炸动作" /><figcaption>爆炸</figcaption></figure>
-                <figure><img src="./assets/seal/actions/guitar/000.png" data-action-folder="./assets/seal/actions/guitar" data-action-frames="377" alt="吉他动作" /><figcaption>吉他</figcaption></figure>
-                <figure><img src="./assets/seal/actions/exam/000.png" data-action-folder="./assets/seal/actions/exam" data-action-frames="319" alt="考神动作" /><figcaption>考神</figcaption></figure>
-                <figure><img src="./assets/seal/actions/slacking/000.png" data-action-folder="./assets/seal/actions/slacking" data-action-frames="281" alt="摸鱼动作" /><figcaption>摸鱼</figcaption></figure>
-                <figure><img src="./assets/seal/actions/spray/000.png" data-action-folder="./assets/seal/actions/spray" data-action-frames="450" alt="喷雾动作" /><figcaption>喷雾</figcaption></figure>
-                <figure><img src="./assets/seal/actions/whisk/000.png" data-action-folder="./assets/seal/actions/whisk" data-action-frames="321" alt="拂尘动作" /><figcaption>拂尘</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/late-night/000.webp" data-animation-src="./assets/seal/animated/late-night.webp" data-poster-src="./assets/seal/actions/late-night/000.webp" alt="熬夜动作" /><figcaption>熬夜</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/report/000.webp" data-animation-src="./assets/seal/animated/report.webp" data-poster-src="./assets/seal/actions/report/000.webp" alt="报告动作" /><figcaption>报告</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/explosion/000.webp" data-animation-src="./assets/seal/animated/explosion.webp" data-poster-src="./assets/seal/actions/explosion/000.webp" alt="爆炸动作" /><figcaption>爆炸</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/guitar/000.webp" data-animation-src="./assets/seal/animated/guitar.webp" data-poster-src="./assets/seal/actions/guitar/000.webp" alt="吉他动作" /><figcaption>吉他</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/exam/000.webp" data-animation-src="./assets/seal/animated/exam.webp" data-poster-src="./assets/seal/actions/exam/000.webp" alt="考神动作" /><figcaption>考神</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/slacking/000.webp" data-animation-src="./assets/seal/animated/slacking.webp" data-poster-src="./assets/seal/actions/slacking/000.webp" alt="摸鱼动作" /><figcaption>摸鱼</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/spray/000.webp" data-animation-src="./assets/seal/animated/spray.webp" data-poster-src="./assets/seal/actions/spray/000.webp" alt="喷雾动作" /><figcaption>喷雾</figcaption></figure>
+                <figure><img width="710" height="880" src="./assets/seal/actions/whisk/000.webp" data-animation-src="./assets/seal/animated/whisk.webp" data-poster-src="./assets/seal/actions/whisk/000.webp" alt="拂尘动作" /><figcaption>拂尘</figcaption></figure>
               </div>
             </div>
           </section>
@@ -132,7 +145,7 @@
               <p>统一视觉体系下，载具逐次升级、距离不断拉近，用场景进阶标记每一段突破</p>
             </header>
             <div class="world-feature">
-              <video id="worldVideo" autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-05-desert-boat.mp4" type="video/mp4" /></video>
+              <video data-deferred id="worldVideo" data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-05-desert-boat.mp4" type="video/mp4" /></video>
               <div class="world-controls" aria-label="大屏场景切换">
                 <button id="previousWorldScene" type="button" aria-label="上一个场景"><span aria-hidden="true">&#8249;</span></button>
                 <button id="nextWorldScene" type="button" aria-label="下一个场景"><span aria-hidden="true">&#8250;</span></button>
@@ -140,12 +153,12 @@
               <div class="world-note"><strong>场景提示词结构</strong><span>风格种子 / 主体 / 环境 / 构图 / 光影</span></div>
             </div>
             <div class="scene-catalog" aria-label="六个主题场景">
-              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-01-ice.mp4" type="video/mp4" /></video><figcaption><span>01</span> 南极冰块</figcaption></figure>
-              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-02-raft.mp4" type="video/mp4" /></video><figcaption><span>02</span> 奇石木筏</figcaption></figure>
-              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-06-volcano.mp4" type="video/mp4" /></video><figcaption><span>03</span> 火山</figcaption></figure>
-              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-03-sakura.mp4" type="video/mp4" /></video><figcaption><span>04</span> 樱花气垫</figcaption></figure>
-              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-05-desert-boat.mp4" type="video/mp4" /></video><figcaption><span>05</span> 沙漠小船</figcaption></figure>
-              <figure><video autoplay muted loop playsinline preload="metadata"><source src="./assets/scenes/scene-04-beach-chair.mp4" type="video/mp4" /></video><figcaption><span>06</span> 沙滩木椅</figcaption></figure>
+              <figure><video data-deferred data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-01-ice.mp4" type="video/mp4" /></video><figcaption><span>01</span> 南极冰块</figcaption></figure>
+              <figure><video data-deferred data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-02-raft.mp4" type="video/mp4" /></video><figcaption><span>02</span> 奇石木筏</figcaption></figure>
+              <figure><video data-deferred data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-06-volcano.mp4" type="video/mp4" /></video><figcaption><span>03</span> 火山</figcaption></figure>
+              <figure><video data-deferred data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-03-sakura.mp4" type="video/mp4" /></video><figcaption><span>04</span> 樱花气垫</figcaption></figure>
+              <figure><video data-deferred data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-05-desert-boat.mp4" type="video/mp4" /></video><figcaption><span>05</span> 沙漠小船</figcaption></figure>
+              <figure><video data-deferred data-autoplay muted loop playsinline preload="none"><source data-src="./assets/scenes/scene-04-beach-chair.mp4" type="video/mp4" /></video><figcaption><span>06</span> 沙滩木椅</figcaption></figure>
             </div>
           </section>
 
@@ -156,12 +169,12 @@
                 <h3 id="motionTitle">激励延伸，热点跟随<br />促新人留存，扩充动作资源</h3>
                 <p>海豹舞蹈探索，舞台主题设定</p>
               </header>
-              <figure class="motion-key-visual"><img src="./assets/project-images/motion-inspiration.png" alt="海豹角色设定与多角度形象展示" /></figure>
+              <figure class="motion-key-visual"><img width="5504" height="3072" src="./assets/project-images/motion-inspiration.webp" alt="海豹角色设定与多角度形象展示" /></figure>
             </div>
             <div class="motion-stage">
               <button class="motion-phone" id="motionPhone" type="button" aria-label="播放海豹舞蹈视频">
-                <video id="motionVideo" playsinline loop preload="metadata">
-                  <source src="./assets/motion/chaba-2.mp4" type="video/mp4" />
+                <video data-deferred id="motionVideo" playsinline loop preload="none">
+                  <source data-src="./assets/motion/chaba-2.mp4" type="video/mp4" />
                 </video>
                 <svg class="motion-play-icon" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <circle cx="30" cy="30" r="30" fill="black" fill-opacity="0.2" />
@@ -178,19 +191,19 @@
                   <span class="motion-board-label" aria-hidden="true">动态分镜</span>
                   <div class="motion-storyboards" aria-label="海豹舞蹈 GIF 分镜展示">
                     <figure class="motion-film" aria-label="哈达舞蹈前后两段">
-                      <img class="motion-film-frame" src="./assets/project-images/motion-film-frame.png?v=20260715-3" alt="" />
-                      <span class="motion-film-slot motion-film-slot-top"><img src="./assets/motion/gifs/hada-01.gif" alt="哈达舞蹈前半段" /></span>
-                      <span class="motion-film-slot motion-film-slot-bottom"><img src="./assets/motion/gifs/hada-02.gif" alt="哈达舞蹈后半段" /></span>
+                      <img width="720" height="928" class="motion-film-frame" src="./assets/project-images/motion-film-frame.webp?v=20260715-3" alt="" />
+                      <span class="motion-film-slot motion-film-slot-top"><img width="390" height="260" src="./assets/motion/gifs/hada-01.gif" alt="哈达舞蹈前半段" /></span>
+                      <span class="motion-film-slot motion-film-slot-bottom"><img width="390" height="260" src="./assets/motion/gifs/hada-02.gif" alt="哈达舞蹈后半段" /></span>
                     </figure>
                     <figure class="motion-film" aria-label="肯恰那舞蹈前后两段">
-                      <img class="motion-film-frame" src="./assets/project-images/motion-film-frame.png?v=20260715-3" alt="" />
-                      <span class="motion-film-slot motion-film-slot-top"><img src="./assets/motion/gifs/kenchana-01.gif" alt="肯恰那舞蹈前半段" /></span>
-                      <span class="motion-film-slot motion-film-slot-bottom"><img src="./assets/motion/gifs/kenchana-02.gif" alt="肯恰那舞蹈后半段" /></span>
+                      <img width="720" height="928" class="motion-film-frame" src="./assets/project-images/motion-film-frame.webp?v=20260715-3" alt="" />
+                      <span class="motion-film-slot motion-film-slot-top"><img width="390" height="260" src="./assets/motion/gifs/kenchana-01.gif" alt="肯恰那舞蹈前半段" /></span>
+                      <span class="motion-film-slot motion-film-slot-bottom"><img width="390" height="260" src="./assets/motion/gifs/kenchana-02.gif" alt="肯恰那舞蹈后半段" /></span>
                     </figure>
                     <figure class="motion-film" aria-label="恰巴舞蹈前后两段">
-                      <img class="motion-film-frame" src="./assets/project-images/motion-film-frame.png?v=20260715-3" alt="" />
-                      <span class="motion-film-slot motion-film-slot-top"><img src="./assets/motion/gifs/chaba-01.gif" alt="恰巴舞蹈前半段" /></span>
-                      <span class="motion-film-slot motion-film-slot-bottom"><img src="./assets/motion/gifs/chaba-02.gif" alt="恰巴舞蹈后半段" /></span>
+                      <img width="720" height="928" class="motion-film-frame" src="./assets/project-images/motion-film-frame.webp?v=20260715-3" alt="" />
+                      <span class="motion-film-slot motion-film-slot-top"><img width="390" height="260" src="./assets/motion/gifs/chaba-01.gif" alt="恰巴舞蹈前半段" /></span>
+                      <span class="motion-film-slot motion-film-slot-bottom"><img width="390" height="260" src="./assets/motion/gifs/chaba-02.gif" alt="恰巴舞蹈后半段" /></span>
                     </figure>
                   </div>
                 </div>
@@ -203,29 +216,18 @@
 
     <section class="portfolio-pdf-supplement" id="portfolioSupplement" aria-label="海豹项目作品集补充页面">
       <div class="portfolio-pdf-pages">
-        <img src="./assets/portfolio/cases/seal/page-25.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 1 页" loading="lazy" decoding="async" />
-        <img src="./assets/portfolio/cases/seal/page-26.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 2 页" loading="lazy" decoding="async" />
-        <img src="./assets/portfolio/cases/seal/page-27.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 3 页" loading="lazy" decoding="async" />
-        <img src="./assets/portfolio/cases/seal/page-28.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 4 页" loading="lazy" decoding="async" />
-        <img src="./assets/portfolio/cases/seal/page-29.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 5 页" loading="lazy" decoding="async" />
-        <img src="./assets/portfolio/cases/seal/page-30.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 6 页" loading="lazy" decoding="async" />
-        <img src="./assets/portfolio/cases/seal/page-31.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 7 页" loading="lazy" decoding="async" />
-        <img src="./assets/portfolio/cases/seal/page-32.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 8 页" loading="lazy" decoding="async" />
+        <img width="2560" height="2054" src="./assets/portfolio/cases/seal/page-25.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 1 页" loading="lazy" decoding="async" />
+        <img width="2560" height="2592" src="./assets/portfolio/cases/seal/page-26.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 2 页" loading="lazy" decoding="async" />
+        <img width="2560" height="1440" src="./assets/portfolio/cases/seal/page-27.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 3 页" loading="lazy" decoding="async" />
+        <img width="2560" height="4014" src="./assets/portfolio/cases/seal/page-28.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 4 页" loading="lazy" decoding="async" />
+        <img width="2560" height="4960" src="./assets/portfolio/cases/seal/page-29.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 5 页" loading="lazy" decoding="async" />
+        <img width="2560" height="3995" src="./assets/portfolio/cases/seal/page-30.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 6 页" loading="lazy" decoding="async" />
+        <img width="2560" height="7840" src="./assets/portfolio/cases/seal/page-31.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 7 页" loading="lazy" decoding="async" />
+        <img width="2560" height="4160" src="./assets/portfolio/cases/seal/page-32.jpg?v=20260906-hq" alt="海豹上岸游记作品集补充，第 8 页" loading="lazy" decoding="async" />
       </div>
     </section>
 
-    <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="正在加载海豹场景">
-      <div class="loading-card">
-        <div class="loading-seal-stage" aria-hidden="true">
-          <span class="loading-shadow"></span>
-          <span class="loading-grass"></span>
-          <img class="loading-seal" src="./assets/seal/read/000.png" alt="" />
-        </div>
-        <div class="loading-progress" aria-hidden="true"><span id="loadingProgress"></span></div>
-        <p>正在召唤小海豹 <span id="loadingPercentage">0%</span></p>
-      </div>
-    </div>
-
-    <script src="./script.js?v=20260716-26"></script>
+    <script src="./deferred-media.js?v=20260907-lossless-1"></script>
+    <script src="./script.js?v=20260908-loader-3"></script>
   </body>
 </html>

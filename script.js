@@ -2,6 +2,18 @@ const isGoogleChrome = (navigator.userAgentData?.brands?.some(({ brand }) => bra
   && window.outerWidth - window.innerWidth < 100;
 document.documentElement.classList.toggle("is-google-chrome", isGoogleChrome);
 
+// Detail pages should always enter from their designed first frame. Browsers
+// otherwise restore an old deep scroll position on reload/back-forward, which
+// can make the phone composition appear as a full-screen cropped error.
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+function resetEntryScroll() {
+  if (location.hash) return;
+  window.scrollTo(0, 0);
+  window.requestAnimationFrame(() => window.scrollTo(0, 0));
+}
+resetEntryScroll();
+window.addEventListener("pageshow", resetEntryScroll);
+
 const scenes = [
   { name: "南极冰块", src: "./assets/scenes/scene-01-ice.mp4" },
   { name: "奇石木筏", src: "./assets/scenes/scene-02-raft.mp4" },
@@ -12,23 +24,24 @@ const scenes = [
 ];
 
 const sealActions = [
-  { name: "看书", folder: "./assets/seal/read", frames: 161 },
-  { name: "熬夜", folder: "./assets/seal/actions/late-night", frames: 444 },
-  { name: "报告", folder: "./assets/seal/actions/report", frames: 384 },
-  { name: "爆炸", folder: "./assets/seal/actions/explosion", frames: 468 },
-  { name: "吉他", folder: "./assets/seal/actions/guitar", frames: 377 },
-  { name: "考神", folder: "./assets/seal/actions/exam", frames: 319 },
-  { name: "摸鱼", folder: "./assets/seal/actions/slacking", frames: 281 },
-  { name: "喷雾", folder: "./assets/seal/actions/spray", frames: 450 },
-  { name: "甩拂尘", folder: "./assets/seal/actions/whisk", frames: 321 },
+  { name: "看书", src: "./assets/seal/animated/read.webp", poster: "./assets/seal/read/000.webp", frames: 161 },
+  { name: "熬夜", src: "./assets/seal/animated/late-night.webp", poster: "./assets/seal/actions/late-night/000.webp", frames: 444 },
+  { name: "报告", src: "./assets/seal/animated/report.webp", poster: "./assets/seal/actions/report/000.webp", frames: 384 },
+  { name: "爆炸", src: "./assets/seal/animated/explosion.webp", poster: "./assets/seal/actions/explosion/000.webp", frames: 468 },
+  { name: "吉他", src: "./assets/seal/animated/guitar.webp", poster: "./assets/seal/actions/guitar/000.webp", frames: 377 },
+  { name: "考神", src: "./assets/seal/animated/exam.webp", poster: "./assets/seal/actions/exam/000.webp", frames: 319 },
+  { name: "摸鱼", src: "./assets/seal/animated/slacking.webp", poster: "./assets/seal/actions/slacking/000.webp", frames: 281 },
+  { name: "喷雾", src: "./assets/seal/animated/spray.webp", poster: "./assets/seal/actions/spray/000.webp", frames: 450 },
+  { name: "甩拂尘", src: "./assets/seal/animated/whisk.webp", poster: "./assets/seal/actions/whisk/000.webp", frames: 321 },
 ];
 
 const reactionActions = [
-  { name: "比心", folder: "./assets/seal/reactions/heart", frames: 41 },
-  { name: "嗨", folder: "./assets/seal/reactions/hi", frames: 85 },
+  { name: "比心", src: "./assets/seal/animated/heart.webp", frames: 41 },
+  { name: "嗨", src: "./assets/seal/animated/hi.webp", frames: 85 },
 ];
 
 const stage = document.querySelector(".scene-stage");
+const deviceComposition = document.querySelector(".device-composition");
 const padVideo = document.querySelector("#padVideo");
 const phoneVideo = document.querySelector("#phoneVideo");
 const sealFrame = document.querySelector("#sealFrame");
@@ -48,58 +61,42 @@ const ledeSealFrame = document.querySelector("#ledeSealFrame");
 const characterPortraitFrame = document.querySelector("#characterPortraitFrame");
 const motionPhone = document.querySelector("#motionPhone");
 const motionVideo = document.querySelector("#motionVideo");
-const actionRailFrames = Array.from(document.querySelectorAll(".action-rail img[data-action-folder]")).map((image) => ({
-  image,
-  folder: image.dataset.actionFolder,
-  frames: Number(image.dataset.actionFrames),
-}));
-const breathingFrames = 172;
-const breathingAssetVersion = "2";
+const lazyAnimatedSeals = Array.from(document.querySelectorAll("img[data-animation-src]"));
 
 let activeScene = 0;
 let activeWorldScene = 4;
 let activeAction = 0;
-let activeSealFrame = 0;
 let isReacting = false;
 let touchStartY = 0;
-const preloadedActions = new Set();
+let reactionTimer = 0;
+let sealActionRequest = 0;
 
 sceneTotal.textContent = String(scenes.length).padStart(2, "0");
 
-function getActionFrames(action) {
-  return Array.from({ length: action.frames }, (_, index) => {
-    const frame = String(index).padStart(3, "0");
-    return `${action.folder}/${frame}.png`;
+sealFrame.src = sealActions[activeAction].poster;
+
+function setLazySealState(image, shouldAnimate) {
+  const nextSource = shouldAnimate ? image.dataset.animationSrc : image.dataset.posterSrc;
+  if (nextSource && image.getAttribute("src") !== nextSource) image.src = nextSource;
+}
+
+const sealAnimationVisibility = new IntersectionObserver((entries) => {
+  entries.forEach(({ target, isIntersecting }) => {
+    target.dataset.inView = isIntersecting ? "true" : "false";
+    setLazySealState(target, isIntersecting && !document.hidden);
   });
-}
+}, { rootMargin: "160px 0px" });
 
-function startActionRailLoops() {
-  if (!actionRailFrames.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+lazyAnimatedSeals.forEach((image) => sealAnimationVisibility.observe(image));
 
-  let tick = 0;
-  window.setInterval(() => {
-    actionRailFrames.forEach(({ image, folder, frames }, index) => {
-      const frame = (tick * 2 + Math.floor((frames / actionRailFrames.length) * index)) % frames;
-      image.src = `${folder}/${String(frame).padStart(3, "0")}.png`;
-    });
-    tick += 1;
-  }, 1000 / 12);
-}
-
-function startBreathingLoop(image) {
-  if (!image || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  let frame = 0;
-  window.setInterval(() => {
-    frame = (frame + 1) % breathingFrames;
-    image.src = `./assets/seal/breathing/${String(frame).padStart(3, "0")}.png?v=${breathingAssetVersion}`;
-  }, 1000 / 24);
-}
-
-let sealFrames = getActionFrames(sealActions[activeAction]);
-sealFrame.src = sealFrames[0];
+document.addEventListener("visibilitychange", () => {
+  lazyAnimatedSeals.forEach((image) => {
+    setLazySealState(image, image.dataset.inView === "true" && !document.hidden);
+  });
+});
 
 function playVideo(video) {
+  window.hydrateDeferredVideo?.(video);
   const playPromise = video.play();
   if (playPromise) {
     playPromise.catch(() => {});
@@ -112,6 +109,7 @@ function setWorldScene(nextIndex) {
   activeWorldScene = (nextIndex + scenes.length) % scenes.length;
   const source = worldVideo.querySelector("source");
   source.src = scenes[activeWorldScene].src;
+  delete source.dataset.src;
   worldVideo.currentTime = 0;
   worldVideo.load();
   worldVideo.addEventListener("loadedmetadata", () => playVideo(worldVideo), { once: true });
@@ -146,7 +144,22 @@ function waitForSealReady() {
     const image = new Image();
     image.addEventListener("load", resolve, { once: true });
     image.addEventListener("error", resolve, { once: true });
-    image.src = sealFrames[0];
+    image.src = sealActions[0].poster;
+  });
+}
+
+function waitForDeviceCompositionReady() {
+  return new Promise((resolve) => {
+    const reveal = () => {
+      const aligned = updatePhoneVideoAlignment();
+      if (aligned) deviceComposition?.classList.add("is-ready");
+      resolve();
+    };
+
+    window.requestAnimationFrame(() => {
+      updatePhoneVideoAlignment();
+      window.requestAnimationFrame(reveal);
+    });
   });
 }
 
@@ -157,7 +170,8 @@ function startLoadingSequence() {
     setLoadingProgress(progress);
   }, 90);
 
-  Promise.all([waitForVideoReady(padVideo), waitForVideoReady(phoneVideo), waitForSealReady()]).then(() => {
+  Promise.all([waitForVideoReady(padVideo), waitForVideoReady(phoneVideo), waitForSealReady()]).then(async () => {
+    await waitForDeviceCompositionReady();
     window.clearInterval(progressTimer);
     setLoadingProgress(100);
     window.setTimeout(() => loadingScreen.classList.add("is-leaving"), 320);
@@ -167,10 +181,11 @@ function startLoadingSequence() {
 function updatePhoneVideoAlignment() {
   const padFrame = document.querySelector(".pad-frame");
   const phoneScreen = document.querySelector(".phone-screen");
-  if (!padFrame || !phoneScreen) return;
+  if (!padFrame || !phoneScreen) return false;
 
   const padRect = padFrame.getBoundingClientRect();
   const phoneRect = phoneScreen.getBoundingClientRect();
+  if (!padRect.width || !padRect.height || !phoneRect.width || !phoneRect.height) return false;
   const sceneRect = {
     left: Math.min(padRect.left, phoneRect.left),
     top: Math.min(padRect.top, phoneRect.top),
@@ -195,6 +210,7 @@ function updatePhoneVideoAlignment() {
     element.style.setProperty("--scene-video-offset-x", `${rect.left - renderLeft}px`);
     element.style.setProperty("--scene-video-offset-y", `${rect.top - renderTop}px`);
   });
+  return true;
 }
 
 function queueVideoAlignmentUpdate() {
@@ -246,37 +262,38 @@ function moveScene(direction) {
   }, 1300);
 }
 
-function preloadAction(action) {
-  if (preloadedActions.has(action.folder)) return;
-  preloadedActions.add(action.folder);
-  const frames = getActionFrames(action);
-  let cursor = 0;
-
-  function preloadBatch() {
-    frames.slice(cursor, cursor + 18).forEach((src) => {
-      const image = new Image();
-      image.src = src;
-    });
-    cursor += 18;
-    if (cursor < frames.length) {
-      window.setTimeout(preloadBatch, 60);
-    }
-  }
-
-  preloadBatch();
-}
-
-function showSealAction(action) {
-  activeSealFrame = 0;
-  sealFrames = getActionFrames(action);
-  sealFrame.src = sealFrames[activeSealFrame];
+function showSealAction(action, temporary = false) {
+  window.clearTimeout(reactionTimer);
+  const requestId = ++sealActionRequest;
+  if (action.poster) sealFrame.src = action.poster;
   sealFrame.alt = `${action.name}海豹动作`;
-  preloadAction(action);
+  const animation = new Image();
+  let activated = false;
+  const activate = () => {
+    if (activated || requestId !== sealActionRequest) return;
+    activated = true;
+    sealFrame.src = action.src;
+    if (!temporary) return;
+    reactionTimer = window.setTimeout(() => {
+      isReacting = false;
+      showSealAction(sealActions[activeAction]);
+    }, Math.round(action.frames * 1000 / 24));
+  };
+  animation.addEventListener("load", activate, { once: true });
+  animation.addEventListener("error", () => {
+    if (temporary && requestId === sealActionRequest) {
+      isReacting = false;
+      showSealAction(sealActions[activeAction]);
+    }
+  }, { once: true });
+  animation.src = action.src;
+  if (animation.complete && animation.naturalWidth) activate();
 }
 
 function setAction(index) {
   activeAction = index;
   isReacting = false;
+  window.clearTimeout(reactionTimer);
   showSealAction(sealActions[activeAction]);
 
   document.querySelectorAll(".action-button").forEach((button, buttonIndex) => {
@@ -292,7 +309,6 @@ sealActions.forEach((action, index) => {
   button.textContent = action.name;
   button.setAttribute("aria-label", `切换海豹动作：${action.name}`);
   button.addEventListener("click", () => setAction(index));
-  button.addEventListener("mouseenter", () => preloadAction(action));
   actionButtons.appendChild(button);
 });
 
@@ -302,7 +318,7 @@ nextWorldScene?.addEventListener("click", () => setWorldScene(activeWorldScene +
 teaseSeal.addEventListener("click", () => {
   const reaction = reactionActions[Math.floor(Math.random() * reactionActions.length)];
   isReacting = true;
-  showSealAction(reaction);
+  showSealAction(reaction, true);
   teaseSeal.classList.remove("is-clicking");
   void teaseSeal.offsetWidth;
   teaseSeal.classList.add("is-clicking");
@@ -326,6 +342,8 @@ window.addEventListener("load", queueVideoAlignmentUpdate);
 window.addEventListener(
   "wheel",
   (event) => {
+    if (window.portfolioTouchLayout || event.ctrlKey) return;
+    if (!stage.contains(event.target)) return;
     if (Math.abs(event.deltaY) < 26) return;
     event.preventDefault();
     moveScene(event.deltaY > 0 ? 1 : -1);
@@ -336,6 +354,7 @@ window.addEventListener(
 window.addEventListener(
   "touchstart",
   (event) => {
+    if (window.portfolioTouchLayout || event.touches.length !== 1) return;
     touchStartY = event.touches[0].clientY;
   },
   { passive: true }
@@ -344,6 +363,7 @@ window.addEventListener(
 window.addEventListener(
   "touchend",
   (event) => {
+    if (window.portfolioTouchLayout || !event.changedTouches.length) return;
     const touchEndY = event.changedTouches[0].clientY;
     const delta = touchStartY - touchEndY;
     if (Math.abs(delta) > 42) {
@@ -353,21 +373,6 @@ window.addEventListener(
   { passive: true }
 );
 
-window.setInterval(() => {
-  if (isReacting && activeSealFrame >= sealFrames.length - 1) {
-    isReacting = false;
-    showSealAction(sealActions[activeAction]);
-    return;
-  }
-
-  activeSealFrame = (activeSealFrame + 1) % sealFrames.length;
-  sealFrame.src = sealFrames[activeSealFrame];
-}, 1000 / 24);
-
 setScene(0);
 setAction(0);
-reactionActions.forEach(preloadAction);
-startActionRailLoops();
-startBreathingLoop(ledeSealFrame);
-startBreathingLoop(characterPortraitFrame);
 startLoadingSequence();
